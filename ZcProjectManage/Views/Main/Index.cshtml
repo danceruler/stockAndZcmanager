@@ -1,0 +1,226 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>项目管理系统</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Fonts -->
+    <!-- CSS Libs -->
+    <link rel="stylesheet" href="~/Content/layout/lib/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/Content/layout/lib/css/font-awesome.min.css">
+    <link rel="stylesheet" href="~/Content/layout/lib/css/animate.min.css">
+    <link rel="stylesheet" href="~/Content/layout/lib/css/bootstrap-switch.min.css">
+    <link rel="stylesheet" href="~/Content/layout/lib/css/checkbox3.min.css">
+    <link rel="stylesheet" href="~/Content/layout/lib/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="~/Content/layout/lib/css/dataTables.bootstrap.css">
+    <link rel="stylesheet" href="~/Content/layout/lib/css/select2.min.css">
+    <link href="~/Content/select/css/normalize.css" rel="stylesheet" />
+    <link href="~/Content/select/css/htmleaf-demo.css" rel="stylesheet" />
+    <link href="~/Content/select/css/fm.selectator.jquery.css" rel="stylesheet" />
+    <!-- CSS App -->
+    <link rel="stylesheet" href="~/Content/layout/css/style.css">
+    <link rel="stylesheet" href="~/Content/layout/css/themes/flat-blue.css">
+    <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/4.7.0/css/font-awesome.css">
+    <link rel="import" href="~/myControl.html">
+    <script src="~/Scripts/ueditor.config.js"></script>
+    <script src="~/Scripts/editor_api.js"></script>
+    <link href="~/Content/bootstrap-datepicker/css/bootstrap-datepicker.css" rel="stylesheet" />
+    @*<script src="~/Scripts/ueditor.all.js"></script>*@
+    <script src="~/Scripts/zh-cn.js"></script>
+    <script src="~/js/echarts.min.js"></script>
+    <style>
+
+        .mark {
+            display: none;
+            position: fixed;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            margin: auto;
+            height: 50px;
+            line-height: 50px;
+            /*width: 100px;*/
+            text-align: center;
+            font-size: 15px;
+            color: #fff;
+            background: rgba(0, 0, 0, 0.6);
+            border-radius: 0.1rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .select6 {
+            width: 700px;
+            height: 36px;
+        }
+
+        .addUploadFileBtn {
+            margin-top: 5px;
+            width: 100px;
+            height: 30px;
+            border-radius: 5px;
+            background-color: aquamarine
+        }
+
+        .fileShowBlock {
+            width: auto;
+            height: 30px;
+            background-color: transparent;
+            color: black;
+        }
+    </style>
+    <!-- Javascript Libs -->
+    <script type="text/javascript" src="~/Content/layout/lib/js/jquery.min.js"></script>
+    <script type="text/javascript" src="~/Content/layout/lib/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="~/Content/layout/lib/js/Chart.min.js"></script>
+    <script type="text/javascript" src="~/Content/layout/lib/js/bootstrap-switch.min.js"></script>
+    <script type="text/javascript" src="~/Content/layout/lib/js/jquery.matchHeight-min.js"></script>
+    <script type="text/javascript" src="~/Content/layout/lib/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="~/Content/layout/lib/js/dataTables.bootstrap.min.js"></script>
+    <script type="text/javascript" src="~/Content/layout/lib/js/select2.full.min.js"></script>
+    <script type="text/javascript" src="~/Content/layout/lib/js/ace/ace.js"></script>
+    <script type="text/javascript" src="~/Content/layout/lib/js/ace/mode-html.js"></script>
+    <script type="text/javascript" src="~/Content/layout/lib/js/ace/theme-github.js"></script>
+    <!-- Javascript -->
+    <script type="text/javascript" src="~/Content/layout/js/app.js"></script>
+    <script type="text/javascript" src="~/Content/layout/js/index.js"></script>
+    <script src="~/Content/select/js/fm.selectator.jquery.js"></script>
+    <script src="~/Content/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+    <script src="~/Content/bootstrap-datepicker/locales/bootstrap-datepicker.zh-CN.min.js"></script>
+</head>
+<body class="flat-blue">
+    <div class="app-container">
+        <div class="row content-container">
+            <div class="side-menu sidebar-inverse">
+                <nav class="navbar navbar-default" role="navigation">
+                    <div class="side-menu-container">
+                        <div class="navbar-header">
+                            <a class="navbar-brand" href="#">
+                                <div class="icon fa fa-paper-plane"></div>
+                                <div class="title">后台项目管理</div>
+
+                            </a>
+                            <button type="button" class="navbar-expand-toggle pull-right visible-xs">
+                                <i class="fa fa-times icon"></i>
+                            </button>
+                        </div>
+                        @if (ViewBag.userType == 1)
+                        {
+                            <ul class="nav navbar-nav">
+                                <li class="menu-li" data-controllername="Main" data-actioname="Sum" id="summenu">
+                                    <a href="">
+                                        <span class="icon fa fa-desktop"></span><span class="title">统计</span>
+                                    </a>
+                                </li>
+                                <li class="menu-li" data-controllername="Project" data-actioname="List" id="projectmenu">
+                                    <a href="">
+                                        <span class="icon fa fa-desktop"></span><span class="title">项目列表</span>
+                                    </a>
+                                </li>
+                                <li class="menu-li" data-controllername="Company" data-actioname="List" id="companymenu">
+                                    <a href="">
+                                        <span class="icon fa fa-table"></span><span class="title">公司单位列表</span>
+                                    </a>
+                                </li>
+                                <li class="menu-li">
+                                    <a href="">
+                                        <span class="icon fa fa-user"></span><span class="title">用户信息</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        }
+                    </div>
+                    <!-- /.navbar-collapse -->
+                </nav>
+            </div>
+            <!-- Main Content -->
+            <div class="container-fluid" id="page-content" style="margin-left:60px">
+                @if (ViewBag.cname != "")
+                {
+                    if (ViewBag.id != 0)
+                    {
+                        if (ViewBag.cname == "Company")
+                        {
+                            { Html.RenderAction(ViewBag.aname as string, ViewBag.cname as string, new { companyid = ViewBag.id }); }
+                        }
+                        else if (ViewBag.cname == "Project")
+                        {
+                            { Html.RenderAction(ViewBag.aname as string, ViewBag.cname as string, new { projectid = ViewBag.id }); }
+                        }
+                    }
+                    else if (ViewBag.tag != "")
+                    {
+                        { Html.RenderAction(ViewBag.aname as string, ViewBag.cname as string, new { tag = ViewBag.tag }); }
+                    }
+                    else
+                    {
+                        { Html.RenderAction(ViewBag.aname as string, ViewBag.cname as string); }
+                    }
+                }
+            </div>
+        </div>
+    </div>
+    <script>
+
+        $(".menu-li").click(function () {
+            //var atag = $(this).children("a:eq(0)");
+            //console.log(atag);
+            var controllername = $(this).data("controllername");
+            var actioname = $(this).data("actioname");
+            var fatherdrop = $(this).data("fatherdrop");
+            var dropname = fatherdrop == undefined ? "" : fatherdrop + "-li";
+            var droplis = $('.dropdown');
+            droplis.each(function (i, dropli) {
+                $(dropli).removeClass("active");
+            });
+            if (dropname != "") {
+                $("." + dropname).addClass("active");
+            }
+
+            var menulis = $('.menu-li');
+            menulis.each(function (i, menuli) {
+                $(menuli).removeClass("active");
+            });
+            $(this).addClass("active");
+            if (controllername == "Company" && actioname == "Add") {
+                window.location.href = "http://" + window.location.hostname + ":" + window.location.port + "/Main/Index?cname=" + controllername + "&aname=" + actioname;
+            } else if (controllername == "Project" && actioname == "Add") {
+                window.location.href = "http://" + window.location.hostname + ":" + window.location.port + "/Main/Index?cname=" + controllername + "&aname=" + actioname;
+            } else {
+                $.ajax({
+                    type: 'post',
+                    url: '/' + controllername + '/' + actioname,
+                    traditional: true,
+                    dataType: "html",
+                    async: false,
+                    success: function (data) {
+                        $("#page-content").html("");
+                        $("#page-content").html(data);
+                        $("#tag").selectator({
+                            showAllOptionsOnFocus: true,
+                            keepOpen: true
+                        });
+                        return false;
+                    }
+                });
+            }
+            return false;
+        });
+
+        function ArrayToStr(array) {
+            var result = "";
+            if (array == null) {
+                return result;
+            }
+            for (var i = 0; i < array.length; i++) {
+                if (i > 0) result += ",";
+                result += array[i];
+            }
+            return result;
+        }
+    </script>
+</body>
+</html>

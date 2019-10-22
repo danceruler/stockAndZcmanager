@@ -1,0 +1,92 @@
+﻿@using ZcProjectManage.Controllers
+@{
+    var TypeTags = ViewBag.TypeTags as List<projectype>;
+    var AppTags = ViewBag.AppTags as List<projectype>;
+    var companyTypes = ViewBag.companyTypes as Dictionary<CompanyTypeModel, CompanyTypeModel[]>;
+}
+<div style="margin-top:-50px">
+    <div class="container-fluid">
+        <div class="side-body">
+            <div class="page-title">
+                <span class="title">公司列表</span>
+                @*<div class="description">with jquery Datatable for display data with most usage functional. such as search, ajax loading, pagination, etc.</div>*@
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    @*<div class="card" style="height:150px">
+                        <div class="card-header">
+                            <div class="row">
+
+
+                            </div>
+                        </div>
+                    </div>*@
+                    <div class="col-md-12 form-inline">
+                        <div class="form-group">
+                            <label>类型</label>
+                            <select id="type" class="form-control">
+                                <option value="-1">全部</option>
+                                <option value="1">合作方</option>
+                                <option value="0">承接方</option>
+                                @foreach (var typeKey in companyTypes.Keys)
+                                {
+                                    <optgroup label="@typeKey.name">
+                                        @foreach (var type in companyTypes[typeKey])
+                                        {
+                                            <option value="@type.id">@type.name</option>
+                                        }
+                                    </optgroup>
+                                }
+                            </select>
+                        </div>
+
+                        <input type="text" class="form-control" id="searchkey" placeholder="公司名，地址，联系人关键字" style="margin-top:20px;width:300px" />
+
+                        <div class="form-group">
+                            <label>标签</label>
+                            <select id="tag" class="select6" style="height:40px" multiple>
+                                <optgroup label="类型标签">
+                                    @foreach (var tag in TypeTags)
+                                    {
+                                        <option value="@tag.id" class="option_eight">@tag.name</option>
+                                    }
+                                </optgroup>
+                                <optgroup label="应用场景标签">
+                                    @foreach (var tag in AppTags)
+                                    {
+                                        <option value="@tag.id" class="option_eight">@tag.name</option>
+                                    }
+                                </optgroup>
+                            </select>
+                        </div>
+                        <button class="btn btn-default btnsearch" style="background-color:lightskyblue;margin-top:20px">查询</button>
+                        <button class="btn btn-default pull-right toAdd" style="background-color:lightskyblue;margin-top:20px">新增公司</button>
+                    </div>
+                    <div class="card-body" id="table-content">
+                        @{ Html.RenderAction("ListData", "Company",new { tag = ViewBag.tag }); }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+
+    $(".btnsearch").click(function () {
+        var key = $("#searchkey").val();
+        $.ajax({
+            type: 'post',
+            url: '/Company/ListData',
+            data: { key: key, type: $('#type').val(), tag: ArrayToStr($('#tag').val()) },
+            dataType: 'html',
+            success: function (data) {
+                $("#table-content").html("");
+                $("#table-content").html(data);
+            }
+        });
+    })
+
+    $(".toAdd").click(function () {
+        window.location.href = "http://" + window.location.hostname + ":" + window.location.port + "/Main/Index?cname=Company&aname=Add";
+    });
+</script>

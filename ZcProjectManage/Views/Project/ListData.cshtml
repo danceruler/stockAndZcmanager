@@ -1,0 +1,113 @@
+﻿@model  List<ZcProjectManage.project>
+@{ 
+    var states = ViewBag.states as Dictionary<int, string>;
+    var secondComs = ViewBag.secondComs as List<Company>;
+    var firstComs = ViewBag.firstComs as List<Company>;
+}
+<table class="datatable table table-striped" cellspacing="0" width="100%">
+    <thead>
+        <tr>
+            <th>项目名</th>
+            <th>合作方</th>
+            <th>承接方</th>
+            <th>状态</th>
+            <th>时间</th>
+            <th>备注</th>
+            <th>操作</th>
+        </tr>
+    </thead>
+    @*<tfoot>
+            <tr>
+                <th>Name</th>
+                <th>Position</th>
+                <th>Office</th>
+                <th>Age</th>
+                <th>Start date</th>
+                <th>Salary</th>
+            </tr>
+        </tfoot>*@
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>@item.name</td>
+            <td>
+                @foreach(var com in firstComs)
+                {
+                    if(com.id == item.firstcompanyid)
+                    {
+                        @com.name
+                        break;
+                    }
+                }
+            </td>
+            <td>
+                @foreach (var com in secondComs)
+                {
+                    if (com.id == item.secondcompanyid)
+                    {
+                        @com.name
+                        break;
+                    }
+                }
+            </td>
+            <td>
+                @foreach(var key in states.Keys)
+                {
+                    if(key == item.state)
+                    {
+                        @states[key]
+                        break;
+                    }
+                }
+            </td>
+            <td>@item.createtime</td>
+            <td>@item.remark</td>
+            <td>
+                <a onclick="ProjectInfo(@item.id);return false;" href="">详细信息</a>
+                <a onclick="Delete(@item.id);return false;" href="" >删除</a>
+            </td>
+        </tr>
+        }
+
+    </tbody>
+</table>
+<script>
+    function ProjectInfo(id) {
+        window.location.href = "http://" + window.location.hostname + ":" + window.location.port + "/Main/Index?cname=Project&aname=Index&id=" + id;
+        //$.ajax({
+        //    type: 'post',
+        //    url: '/Project/Index',
+        //    data: { projectid: id },
+        //    traditional: true,
+        //    dataType: "html",
+        //    success: function (data) {
+        //        $("#page-content").html("");
+        //        $("#page-content").html(data);
+        //        return false;
+        //    }
+        //});
+    }
+
+    function Delete(id) {
+        var r = confirm("确认删除？");
+        if (r == true) {
+            $.ajax({
+                type: 'post',
+                url: '/Project/Delete',
+                data: { id: id },
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    if (data.State == 1) {
+                        alert("删除成功");
+                        $(".btnsearch").trigger('click');
+                        
+                    } else {
+                        alert("失败，原因如下\n" + data.Message);
+                    }
+                }
+            });
+        }
+    }
+</script>

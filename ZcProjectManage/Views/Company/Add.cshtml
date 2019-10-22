@@ -1,0 +1,335 @@
+﻿@using ZcProjectManage.Controllers
+@{
+    var TypeTags = ViewBag.TypeTags as List<projectype>;
+    var AppTags = ViewBag.AppTags as List<projectype>;
+    var companyTypes = ViewBag.companyTypes as Dictionary<CompanyTypeModel, CompanyTypeModel[]>;
+}
+<div>
+    <div class="container-fluid">
+        <div class="side-body">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <div class="title">公司信息</div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label for="companyname">公司名称</label>
+                                <input type="text" class="form-control" id="companyname">
+                            </div>
+                            <div class="form-group">
+                                <label for="companyaddress">地址</label>
+                                <input type="text" class="form-control" id="companyaddress">
+                            </div>
+                            <div class="form-group">
+                                <label for="officialweb">官网</label>
+                                <input type="text" class="form-control" id="officialweb">
+                            </div>
+                            <div class="form-group">
+                                <label for="connector">联系人姓名</label>
+                                <input type="text" class="form-control" id="connector">
+                            </div>
+                            <div class="form-group">
+                                <label for="connectornum">引荐人，推荐人</label>
+                                <input type="text" class="form-control" id="connectornum">
+                            </div>
+                            <div class="form-group">
+                                <label for="connectorpos">联系人职位</label>
+                                <input type="text" class="form-control" id="connectorpos">
+                            </div>
+                            <div class="form-group">
+                                <label for="companyname">类型</label>
+                                <select class="form-control" id="companytype">
+                                    <option value="1">合作方</option>
+                                    <option value="0">承接方</option>
+                                    @foreach (var typeKey in companyTypes.Keys)
+                                    {
+                                        <optgroup label="@typeKey.name">
+                                            @foreach (var type in companyTypes[typeKey])
+                                            {
+                                                <option value="@type.id">@type.name</option>
+                                            }
+                                        </optgroup>
+                                    }
+                                    @*<option value="1">合作方</option>
+                <option value="0">承接方</option>*@
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="companysummary" class="form-control">公司简介</label>
+                                <label for="companysummary">标签</label>
+                                <select id="companysummary-tagselect" class="select6" multiple>
+                                    <optgroup label="类型标签">
+                                        @foreach (var tag in TypeTags)
+                                        {
+                                            <option value="@tag.id" class="option_eight">@tag.name</option>
+                                        }
+                                    </optgroup>
+                                    <optgroup label="应用场景标签">
+                                        @foreach (var tag in AppTags)
+                                        {
+                                            <option value="@tag.id" class="option_eight">@tag.name</option>
+                                        }
+                                    </optgroup>
+                                </select>
+                                <script id="companysummary-uediter" type="text/plain" style="width:100%;height:400px;">
+                                </script>
+                                <div class="form-group">
+                                    <label for="companysummary-appendix">附件</label>
+                                    <div class="filedivList">
+                                        <div class="filediv" data-id="1">
+                                            <input type="file" id="companysummary-appendix-1" class="companysummary-appendix" onchange="upload(this)">
+                                        </div>
+                                    </div>
+                                    <button class="addUploadFileBtn" data-appendixName="companysummary-appendix" onclick="addAppendix(this)">添加附件</button>
+                                    <input type="text" style="display:none" id="companysummary-appendix-text" />
+                                </div>
+                                <input type="text" class="form-control" id="companysummary-remark" placeholder="备注" />
+                            </div>
+
+                            <div class="form-group">
+                                <label for="model2" class="form-control">公司资质</label>
+                                <label for="model2">标签</label>
+                                <select id="model2-tagselect" class="select6" multiple>
+                                    <optgroup label="类型标签">
+                                        @foreach (var tag in TypeTags)
+                                        {
+                                            <option value="@tag.id" class="option_eight">@tag.name</option>
+                                        }
+                                    </optgroup>
+                                    <optgroup label="应用场景标签">
+                                        @foreach (var tag in AppTags)
+                                        {
+                                            <option value="@tag.id" class="option_eight">@tag.name</option>
+                                        }
+                                    </optgroup>
+                                </select>
+                                <script id="model2-uediter" type="text/plain" style="width:100%;height:400px;">
+                                </script>
+                                <div class="form-group">
+                                    <label for="model2-appendix">附件</label>
+                                    <div class="filedivList">
+                                        <div class="filediv" data-id="1">
+                                            <input type="file" id="model2-appendix-1" class="model2-appendix" onchange="upload(this)">
+                                        </div>
+                                    </div>
+                                    <button class="addUploadFileBtn" data-appendixName="model2-appendix" onclick="addAppendix(this)">添加附件</button>
+                                    <input type="text" style="display:none" id="model2-appendix-text" />
+
+                                </div>
+                                <input type="text" class="form-control" id="model2-remark" placeholder="备注" />
+                            </div>
+
+                            <div class="form-group">
+                                <label for="model3" class="form-control">产品信息</label>
+                                <div class="form-group">
+                                    <label for="remark">项目名称</label>
+                                    <input type="text" class="form-control" id="remark">
+                                </div>
+                                <label for="model3">标签</label>
+                                <select id="model3-tagselect" class="select6" multiple>
+                                    <optgroup label="类型标签">
+                                        @foreach (var tag in TypeTags)
+                                        {
+                                            <option value="@tag.id" class="option_eight">@tag.name</option>
+                                        }
+                                    </optgroup>
+                                    <optgroup label="应用场景标签">
+                                        @foreach (var tag in AppTags)
+                                        {
+                                            <option value="@tag.id" class="option_eight">@tag.name</option>
+                                        }
+                                    </optgroup>
+                                </select>
+                                <script id="model3-uediter" type="text/plain" style="width:100%;height:400px;">
+                                </script>
+                                <div class="form-group">
+                                    <label for="model3-appendix">附件</label>
+                                    <div class="filedivList">
+                                        <div class="filediv" data-id="1">
+                                            <input type="file" id="model3-appendix-1" class="model3-appendix" onchange="upload(this)">
+                                        </div>
+                                    </div>
+                                    <button class="addUploadFileBtn" data-appendixName="model3-appendix" onclick="addAppendix(this)">添加附件</button>
+                                    <input type="text" style="display:none" id="model3-appendix-text" />
+                                </div>
+                                <input type="text" class="form-control" id="model3-remark" placeholder="备注" />
+                            </div>
+
+                            @*<div style="background-color:antiquewhite">
+            <label class="form-control isdrop" data-name="projectdrop">项目信息</label>
+            <div id="projectdrop-content">
+                <div class="form-group projectdrop-item1" style="width:90%;margin-left:5%">
+                    <input placeholder="名称" class="form-control" />
+                    <script id="p1-uediter" type="text/plain" style="width:100%;height:400px;margin-top:10px">
+                    </script>
+                    <div class="form-group">
+                        <label for="model4-appendix">附件</label>
+                        <input type="file" id="model4-appendix" onchange="upload(this)">
+                        <input type="text" style="display:none" id="model4-appendix-text" />
+                        <p class="help-block">多个文件请压缩</p>
+                    </div>
+                </div>
+            </div>
+        </div>*@
+                            <div class="form-group">
+                                <label for="appendix">附件</label>
+                                <div class="filedivList">
+                                    <div class="filediv" data-id="1">
+                                        <input type="file" id="appendix-1" class="appendix" onchange="upload(this)">
+                                    </div>
+                                </div>
+                                <button class="addUploadFileBtn" data-appendixName="appendix" onclick="addAppendix(this)">添加附件</button>
+                                <input type="text" style="display:none" id="appendix-text" />
+                            </div>
+                            <button class="btn btn-default addcompany" style="background-color:lightskyblue">增加</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="mark" style="width:75px;height:75px">
+    <img src="http://xtu1511.820803.xyz/Upload/load3.gif" style="width:75px;height:75px" />
+</div>
+<script>
+    var csummaryuediter = UE.getEditor('companysummary-uediter');
+    var model2uediter = UE.getEditor('model2-uediter');
+    var model3uediter = UE.getEditor('model3-uediter');
+    
+    var companysummaryTagselect = $('#companysummary-tagselect');
+    var model2Tagselect = $('#model2-tagselect');
+    var model3Tagselect = $('#model3-tagselect');
+
+    //companysummaryTagselect.selectator({
+    //    showAllOptionsOnFocus: true,
+    //    keepOpen: true
+    //});
+
+    $(".addcompany").click(function () {
+        //model
+        //公司简介
+        var companySummaryItem = { type: '公司简介', uediitercontent: csummaryuediter.getContent(), typeids: ArrayToStr(companysummaryTagselect.val()), file: $("#companysummary-appendix-text").val(), remark: $('#companysummary-remark').val() };
+        //公司资质
+        var model2Item = { type: '公司资质', uediitercontent: model2uediter.getContent(), typeids: ArrayToStr(model2Tagselect.val()), file: $("#model2-appendix-text").val(), remark: $('#model2-remark').val() };
+        //产品信息
+        var model3Item = { type: '产品信息', uediitercontent: model3uediter.getContent(), typeids: ArrayToStr(model3Tagselect.val()), file: $("#model3-appendix-text").val(), remark: $('#model3-remark').val() };
+
+        console.log(companySummaryItem);
+        console.log(model2Item);
+        console.log(model3Item);
+
+        var companyname = $("#companyname").val();
+        var companytype = $("#companytype").val();
+        var companyaddress = $("#companyaddress").val();
+        var connector = $("#connector").val();
+        var connectornum = $("#connectornum").val();
+        var connectorpos = $("#connectorpos").val();
+        var remark = $("#remark").val();
+        var appendixurl = $("#appendix-text").val();
+        var officialweb = $("#officialweb").val();
+        $.ajax({
+            type: 'post',
+            url: '/Company/AddCompany',
+            data: {
+                Company: { name: companyname, type: companytype, address: companyaddress, connector: connector, connectnum: connectornum, connectorpos: connectorpos, remark: remark, description: appendixurl, officiaweb: officialweb },
+                Models: [
+                    companySummaryItem,
+                    model2Item,
+                    model3Item
+                ]
+            },
+            dataType: 'json',
+            success: function (result) {
+                if (result.State == 1) {
+                    alert("添加成功");
+                    $("#companymenu").trigger('click');
+                    //window.location.href = window.location.href = "http://" + window.location.hostname + ":" + window.location.port + "/Main/Index?cname=Company&aname=List";
+                } else {
+                    alert("添加失败：信息如下：\n" + result.Messgae);
+                }
+            }
+        });
+    });
+
+    $(".isdrop").click(function () {
+        var name = $(this).data("name");
+        if ($("#" + name + "-content").css("display") == "none") {
+            $("#" + name + "-content").css("display", 'block');
+        } else {
+            $("#" + name + "-content").css("display", 'none')
+        }
+    });
+
+    function addAppendix(obj) {
+        var fatherObj = $(obj).parent();
+        var filedivList = fatherObj.children('.filedivList');
+        var fileDivs = filedivList.children('.filediv');
+        var ids = [];
+        console.log(fileDivs.length);
+        for (var i = 0; i < fileDivs.length; i++) {
+            ids.push($(fileDivs[i]).data("id"));
+        }
+        var appendixname = $(obj).data("appendixname");
+        for (var i = 1; i <= 100; i++) {
+            if (ids.indexOf(i) == -1) {
+                var htmlContent = '<div class="filediv" data-id="' + i + '">' +
+                    '<input type="file" id="' + appendixname + '-' + i + '" class="' + appendixname + '" onchange="upload(this)" style="float:left" >'
+                    + '<button onclick="deleteFile(this)" class="' + appendixname + '" >删除</button>'
+                    + '</div>';
+                //$(fileDivs[fileDivs.length - 1]).append(htmlContent);
+                $(filedivList).append(htmlContent);
+                break;
+            }
+        }
+
+    }
+
+    function deleteFile(obj) {
+        var parent = $(obj).parent();
+        var id = $(parent).data("id");
+        console.log(parent);
+        var url = $("#" + $(obj).prop("className") + "-" + id).data("url");
+        $("#" + $(obj).prop("className") + "-text").val($("#" + $(obj).prop("className") + "-text").val().replace(url, ''));
+        parent.remove();
+        console.log($("#" + $(obj).prop("className") + "-text").val());
+    }
+
+    function upload(obj) {
+        var file = obj.files[0];
+        var form = new FormData();
+        console.log("#" + $(obj).prop("className") + "-text");
+        form.append("file", file);
+        $.ajax({
+            url: "http://www.820803.xyz:2001/api/file/PostFileForPath",
+            type: "post",
+            data: form,
+            processData: false,
+            contentType: false,
+            dataType: 'json',
+            async: true,
+            success: function (data) {
+                console.log($("#" + $(obj).prop("className") + "-text").val());
+                if (data == "") {
+                    alert("上传失败");
+                } else {
+                    var text = $("#" + $(obj).prop("className") + "-text").val();
+                    $("#" + $(obj).prop("className") + "-text").val(text == '' ? data : text + ';' + data);
+                    console.log($("#" + $(obj).prop("className") + "-text").val());
+                    $(obj).attr("data-url", data);
+                }
+            },
+            fail: function (data) {
+                alert(data);
+            }
+        });
+    }
+</script>
+
+
+

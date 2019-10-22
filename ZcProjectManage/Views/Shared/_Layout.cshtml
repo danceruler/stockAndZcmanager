@@ -1,0 +1,154 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>项目管理系统</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Fonts -->
+    <!-- CSS Libs -->
+    <link rel="stylesheet" href="~/Content/layout/lib/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/Content/layout/lib/css/font-awesome.min.css">
+    <link rel="stylesheet" href="~/Content/layout/lib/css/animate.min.css">
+    <link rel="stylesheet" href="~/Content/layout/lib/css/bootstrap-switch.min.css">
+    <link rel="stylesheet" href="~/Content/layout/lib/css/checkbox3.min.css">
+    <link rel="stylesheet" href="~/Content/layout/lib/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="~/Content/layout/lib/css/dataTables.bootstrap.css">
+    <link rel="stylesheet" href="~/Content/layout/lib/css/select2.min.css">
+    <link href="https://cdn.bootcss.com/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+
+    <!-- CSS App -->
+    <link rel="stylesheet" href="~/Content/layout/css/style.css">
+    <link rel="stylesheet" href="~/Content/layout/css/themes/flat-blue.css">
+    <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/4.7.0/css/font-awesome.css">
+</head>
+
+<body class="flat-blue">
+    <div class="app-container">
+        <div class="row content-container">
+
+            <div class="side-menu sidebar-inverse">
+                <nav class="navbar navbar-default" role="navigation">
+                    <div class="side-menu-container">
+                        <div class="navbar-header">
+                            <a class="navbar-brand" href="#">
+                                <div class="icon fa fa-paper-plane"></div>
+                                <div class="title">后台项目管理</div>
+                            </a>
+                            <button type="button" class="navbar-expand-toggle pull-right visible-xs">
+                                <i class="fa fa-times icon"></i>
+                            </button>
+                        </div>
+                        <ul class="nav navbar-nav">
+                            <li class="menu-li">
+                                <a href="/Main/Index">
+                                    <span class="icon fa fa-tachometer"></span><span class="title">统计</span>
+                                </a>
+                            </li>
+                            <li class="panel panel-default dropdown active">
+                                <a data-toggle="collapse" href="#dropdown-project">
+                                    <span class="icon fa fa-desktop"></span><span class="title">项目管理</span>
+                                </a>
+                                <div id="dropdown-project" class="panel-collapse collapse">
+                                    <div class="panel-body">
+                                        <ul class="nav navbar-nav">
+                                            <li class="menu-li active">
+                                                <a href="/Project/List">项目列表</a>
+                                            </li>
+                                            @*<li class="menu-li">
+                                                <a href="/Project/RunningList">进行中项目</a>
+                                            </li>*@
+                                            <li class="menu-li">
+                                                <a href="/Project/add">新增项目</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="panel panel-default dropdown">
+                                <a data-toggle="collapse" href="#dropdown-company">
+                                    <span class="icon fa fa-table"></span><span class="title">公司单位信息</span>
+                                </a>
+                                <div id="dropdown-company" class="panel-collapse collapse">
+                                    <div class="panel-body">
+                                        <ul class="nav navbar-nav">
+                                            <li class="menu-li">
+                                                <a href="/Company/List">公司单位列表</a>
+                                            </li>
+                                            <li class="menu-li">
+                                                <a href="/Company/Add">新增公司单位</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="menu-li">
+                                <a href="index.html">
+                                    <span class="icon fa fa-user"></span><span class="title">用户信息</span>
+                                </a>
+                            </li>
+                            @*<li class="panel panel-default dropdown">
+                                    <a data-toggle="collapse" href="#dropdown-table">
+                                        <span class="icon fa fa-table"></span><span class="title">Table</span>
+                                    </a>
+                                    <div id="dropdown-table" class="panel-collapse collapse">
+                                        <div class="panel-body">
+                                            <ul class="nav navbar-nav">
+                                                <li>
+                                                    <a href="table/table.html">Table</a>
+                                                </li>
+                                                <li>
+                                                    <a href="table/datatable.html">Datatable</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </li>*@
+
+                        </ul>
+                    </div>
+                    <!-- /.navbar-collapse -->
+                </nav>
+            </div>
+            <div class="tlinks">Collect from <a href="http://www.cssmoban.com/" title="网站模板">网站模板</a></div>
+            <!-- Main Content -->
+            <div class="container-fluid" style="margin-left:60px">
+                @RenderBody()
+            </div>
+        </div>
+        <footer class="app-footer">
+            <div class="wrapper">
+            </div>
+        </footer>
+    </div>
+    <!-- Javascript Libs -->
+    <script type="text/javascript" src="~/Content/layout/lib/js/jquery.min.js"></script>
+    <script type="text/javascript" src="~/Content/layout/lib/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="~/Content/layout/lib/js/Chart.min.js"></script>
+    <script type="text/javascript" src="~/Content/layout/lib/js/bootstrap-switch.min.js"></script>
+    <script type="text/javascript" src="~/Content/layout/lib/js/jquery.matchHeight-min.js"></script>
+    <script type="text/javascript" src="~/Content/layout/lib/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="~/Content/layout/lib/js/dataTables.bootstrap.min.js"></script>
+    <script type="text/javascript" src="~/Content/layout/lib/js/select2.full.min.js"></script>
+    <script type="text/javascript" src="~/Content/layout/lib/js/ace/ace.js"></script>
+    <script type="text/javascript" src="~/Content/layout/lib/js/ace/mode-html.js"></script>
+    <script type="text/javascript" src="~/Content/layout/lib/js/ace/theme-github.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
+
+    <!-- Javascript -->
+    <script type="text/javascript" src="~/Content/layout/js/app.js"></script>
+    <script type="text/javascript" src="~/Content/layout/js/index.js"></script>
+    <script>
+        $(".menu-li").click(function () {
+            //var atag = $(this).children("a:eq(0)");
+            //console.log(atag);
+            //var controllername = atag[0].href.split('/')[3];
+            //var actioname = atag[0].href.split('/')[4];
+            var menulis = $('.menu-li');
+            menulis.each(function (i, menuli) {
+                $(menuli).removeClass("active");
+            });
+            $(this).addClass("active");
+            
+        });
+    </script>
+</body>
+</html>

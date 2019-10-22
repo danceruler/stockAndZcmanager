@@ -1,0 +1,78 @@
+﻿
+<div style="margin-top:-50px">
+    <div class="container-fluid">
+        <div class="side-body">
+            <div class="page-title">
+                <span class="title">正在进行项目列表</span>
+                @*<div class="description">with jquery Datatable for display data with most usage functional. such as search, ajax loading, pagination, etc.</div>*@
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="row">
+                                <div class="col-md-12 form-inline">
+                                    <div class="form-group">
+                                        <label>开始时间</label>
+                                        <input class="form-control" id="BeginDate" name="BeginDate" value="@ViewBag.BeginDate">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>
+                                            结束时间
+                                        </label>
+                                        <input class="form-control" id="EndDate" name="EndDate" value="@ViewBag.EndDate">
+                                    </div>
+                                    <input type="text" class="form-control" id="searchkey" placeholder="关键字" />
+                                    <button class="btn btn-default btnsearch" style="background-color:lightskyblue">查询</button>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body" id="table-content">
+                        @{ Html.RenderAction("RunningListData", "Project", new { beginDate = ViewBag.BeginDate, endDate = ViewBag.EndDate, key = "" }); }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(function () {
+        $('#BeginDate')
+            .datepicker({
+                minView: "month", //选择日期后，不会再跳转去选择时分秒
+                format: "yyyy-mm-dd", //选择日期后，文本框显示的日期格式
+                language: 'zh-CN', //汉化
+                autoclose: true //选择日期后自动关闭
+            });
+
+        $('#EndDate')
+            .datepicker({
+                minView: "month", //选择日期后，不会再跳转去选择时分秒
+                format: "yyyy-mm-dd", //选择日期后，文本框显示的日期格式
+                language: 'zh-CN', //汉化
+                autoclose: true //选择日期后自动关闭
+            });
+    });
+
+    $(".btnsearch").click(function () {
+        var begindate = $("#BeginDate").val();
+        var enddate = $("#EndDate").val();
+        var key = $("#searchkey").val();
+        $.ajax({
+            type: 'post',
+            url: '/Project/RunningListData',
+            data: { beginDate: begindate, endDate: enddate, key: key },
+            dataType: 'html',
+            success: function (data) {
+                $("#table-content").html("");
+                $("#table-content").html(data);
+            }
+        });
+    })
+</script>
+
+
+
+

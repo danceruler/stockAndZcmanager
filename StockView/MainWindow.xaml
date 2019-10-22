@@ -1,0 +1,57 @@
+﻿<Window x:Class="StockView.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:pu="clr-namespace:Panuon.UI;assembly=Panuon.UI"
+        xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:dp="clr-namespace:Utility.Tool.Controls.View;assembly=Utility.Tool.Controls"
+        xmlns:local="clr-namespace:StockView"
+        mc:Ignorable="d"
+        Title="股票支撑系统" Height="800" Width="1500" ResizeMode="CanMinimize">
+    <Grid Name="MainGrid">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="125*"/>
+            <ColumnDefinition Width="373*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"></RowDefinition>
+            <RowDefinition Height="350"></RowDefinition>
+            <RowDefinition Height="50"></RowDefinition>
+            <RowDefinition Height="300"></RowDefinition>
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Horizontal" Grid.ColumnSpan="2" Margin="20,10,0,0">
+            <pu:PUTextBox Name="StockId" Width="200" Height="40" Watermark="输入股票编号"></pu:PUTextBox>
+            <Label Width="50" VerticalAlignment="Center" FontSize="10" Content="开始时间:"></Label>
+            <DatePicker Name="startTime" VerticalAlignment="Center"/>
+            <!--<dp:DateTimePicker Name="startTime" Width="150" Height="40" Loaded="StartTime_Loaded" RenderTransformOrigin="0.5,0.688" ></dp:DateTimePicker>-->
+            <Label Width="50" VerticalAlignment="Center" FontSize="10" Content="结束时间:"></Label>
+            <DatePicker Name="endTime" VerticalAlignment="Center"/>
+            <!--<dp:DateTimePicker Name="endTime" Width="100" Height="40" ></dp:DateTimePicker>-->
+            <pu:PUButton Content="查询" Width="200" Height="40" BorderCornerRadius="5,5,5,5" Click="GetDataAndPaint" Margin="20,0,0,0"></pu:PUButton>
+
+
+
+            <!--<ComboBox Name="elicolor" Width="100" Height="30" VerticalContentAlignment="Center">
+                <ComboBoxItem Content="全部"></ComboBoxItem>
+                <ComboBoxItem Content="蓝"></ComboBoxItem>
+                <ComboBoxItem Content="绿"></ComboBoxItem>
+            </ComboBox>
+            <pu:PUButton Content="查询买入点" Width="200" Height="40"  HorizontalAlignment="Right" Margin="0,0,0,0" Command="{Binding UpdateMACDListCommand}"/>-->
+        </StackPanel>
+        <StackPanel Grid.Row="2" Orientation="Horizontal">
+            <pu:PUComboBox SelectedIndex="0" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="20,0,0,0" Width="130" Height="40" SelectionChanged="Table2Change">
+                <pu:PUComboBoxItem Content="MACD折线图" Value="0"></pu:PUComboBoxItem>
+                <pu:PUComboBoxItem Content="成交量柱形图" Value="1"></pu:PUComboBoxItem>
+            </pu:PUComboBox>
+            <pu:PUButton Content="左移" Width="60" Height="40" BorderCornerRadius="8,0,0,8" Click="LeftMoveTable"  Margin="20,0,0,0"></pu:PUButton>
+            <pu:PUButton Content="右移" Width="60" Height="40" BorderCornerRadius="0,8,8,0" Click="RightMoveTable" Margin="0,0,0,0"></pu:PUButton>
+        </StackPanel>
+        <StackPanel Width="400" Grid.Column="1" Grid.RowSpan="4" HorizontalAlignment="Right">
+            <Label Name="loading" Content="正在加载中"></Label>
+            <pu:PUTabControl Name="news_Tab" Width="400" Height="760" TabControlStyle="Classic" Background="Gray">
+                
+            </pu:PUTabControl>
+        </StackPanel>
+    </Grid>
+</Window>

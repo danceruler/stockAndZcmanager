@@ -1,0 +1,267 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Company">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="200" />
+          <Property Name="address" Type="varchar" MaxLength="200" />
+          <Property Name="connector" Type="varchar" MaxLength="50" />
+          <Property Name="connectnum" Type="varchar" MaxLength="50" />
+          <Property Name="connectorpos" Type="varchar" MaxLength="50" />
+          <Property Name="remark" Type="varchar(max)" />
+          <Property Name="description" Type="varchar(max)" />
+          <Property Name="type" Type="int" />
+          <Property Name="modelids" Type="varchar(max)" />
+          <Property Name="tagids" Type="varchar(max)" />
+          <Property Name="officiaweb" Type="varchar(max)" />
+        </EntityType>
+        <EntityType Name="model">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="type" Type="varchar" MaxLength="50" />
+          <Property Name="uediitercontent" Type="varchar(max)" />
+          <Property Name="typeids" Type="varchar(max)" />
+          <Property Name="file" Type="varchar(max)" />
+          <Property Name="remark" Type="varchar(max)" />
+        </EntityType>
+        <EntityType Name="project">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="200" />
+          <Property Name="firstcompanyid" Type="int" />
+          <Property Name="secondcompanyid" Type="int" />
+          <Property Name="createtime" Type="datetime" />
+          <Property Name="userid" Type="int" />
+          <Property Name="dockername" Type="varchar" MaxLength="50" />
+          <Property Name="typeids" Type="varchar(max)" />
+          <Property Name="earlyfiles" Type="varchar(max)" />
+          <Property Name="earlycontent" Type="varchar(max)" />
+          <Property Name="solutionfiles" Type="varchar(max)" />
+          <Property Name="solutioncontent" Type="varchar(max)" />
+          <Property Name="finalfiles" Type="varchar(max)" />
+          <Property Name="finalcontent" Type="varchar(max)" />
+          <Property Name="remark" Type="varchar(max)" />
+          <Property Name="holdutilname" Type="varchar" MaxLength="50" />
+          <Property Name="holdutilinfo" Type="varchar(max)" />
+          <Property Name="state" Type="int" />
+        </EntityType>
+        <EntityType Name="projectype">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="200" />
+          <Property Name="type" Type="int" />
+        </EntityType>
+        <EntityType Name="user">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="username" Type="varchar" MaxLength="100" />
+          <Property Name="password" Type="varchar" MaxLength="100" />
+          <Property Name="realname" Type="varchar" MaxLength="50" />
+          <Property Name="state" Type="int" />
+        </EntityType>
+        <EntityContainer Name="ModelStoreContainer">
+          <EntitySet Name="Company" EntityType="Self.Company" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="model" EntityType="Self.model" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="project" EntityType="Self.project" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="projectype" EntityType="Self.projectype" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="user" EntityType="Self.user" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Company">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="remark" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="address" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="connector" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="connectnum" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="connectorpos" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="type" Type="Int32" />
+          <Property Name="modelids" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="tagids" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="officiaweb" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="user">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="username" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="password" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="realname" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="state" Type="Int32" />
+        </EntityType>
+        <EntityContainer Name="zc_project_collectionEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Company" EntityType="Self.Company" />
+          <EntitySet Name="user" EntityType="Self.user" />
+          <EntitySet Name="projectype" EntityType="Model.projectype" />
+          <EntitySet Name="model" EntityType="Model.model" />
+          <EntitySet Name="project" EntityType="Model.project" />
+        </EntityContainer>
+        <EntityType Name="projectype">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="type" Type="Int32" />
+        </EntityType>
+        <EntityType Name="model">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="type" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="uediitercontent" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="typeids" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="file" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="remark" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="project">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="firstcompanyid" Type="Int32" />
+          <Property Name="secondcompanyid" Type="Int32" />
+          <Property Name="createtime" Type="DateTime" Precision="3" />
+          <Property Name="userid" Type="Int32" />
+          <Property Name="dockername" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="typeids" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="earlyfiles" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="earlycontent" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="solutionfiles" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="solutioncontent" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="finalfiles" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="finalcontent" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="remark" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="holdutilname" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="holdutilinfo" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="state" Type="Int32" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ModelStoreContainer" CdmEntityContainer="zc_project_collectionEntities">
+          <EntitySetMapping Name="Company">
+            <EntityTypeMapping TypeName="Model.Company">
+              <MappingFragment StoreEntitySet="Company">
+                <ScalarProperty Name="officiaweb" ColumnName="officiaweb" />
+                <ScalarProperty Name="tagids" ColumnName="tagids" />
+                <ScalarProperty Name="modelids" ColumnName="modelids" />
+                <ScalarProperty Name="type" ColumnName="type" />
+                <ScalarProperty Name="connectorpos" ColumnName="connectorpos" />
+                <ScalarProperty Name="connectnum" ColumnName="connectnum" />
+                <ScalarProperty Name="connector" ColumnName="connector" />
+                <ScalarProperty Name="address" ColumnName="address" />
+                <ScalarProperty Name="remark" ColumnName="remark" />
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="description" ColumnName="description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="user">
+            <EntityTypeMapping TypeName="Model.user">
+              <MappingFragment StoreEntitySet="user">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="realname" ColumnName="realname" />
+                <ScalarProperty Name="state" ColumnName="state" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="projectype">
+            <EntityTypeMapping TypeName="Model.projectype">
+              <MappingFragment StoreEntitySet="projectype">
+                <ScalarProperty Name="type" ColumnName="type" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="model">
+            <EntityTypeMapping TypeName="Model.model">
+              <MappingFragment StoreEntitySet="model">
+                <ScalarProperty Name="remark" ColumnName="remark" />
+                <ScalarProperty Name="file" ColumnName="file" />
+                <ScalarProperty Name="typeids" ColumnName="typeids" />
+                <ScalarProperty Name="uediitercontent" ColumnName="uediitercontent" />
+                <ScalarProperty Name="type" ColumnName="type" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="project">
+            <EntityTypeMapping TypeName="Model.project">
+              <MappingFragment StoreEntitySet="project">
+                <ScalarProperty Name="state" ColumnName="state" />
+                <ScalarProperty Name="holdutilinfo" ColumnName="holdutilinfo" />
+                <ScalarProperty Name="holdutilname" ColumnName="holdutilname" />
+                <ScalarProperty Name="remark" ColumnName="remark" />
+                <ScalarProperty Name="finalcontent" ColumnName="finalcontent" />
+                <ScalarProperty Name="finalfiles" ColumnName="finalfiles" />
+                <ScalarProperty Name="solutioncontent" ColumnName="solutioncontent" />
+                <ScalarProperty Name="solutionfiles" ColumnName="solutionfiles" />
+                <ScalarProperty Name="earlycontent" ColumnName="earlycontent" />
+                <ScalarProperty Name="earlyfiles" ColumnName="earlyfiles" />
+                <ScalarProperty Name="typeids" ColumnName="typeids" />
+                <ScalarProperty Name="dockername" ColumnName="dockername" />
+                <ScalarProperty Name="userid" ColumnName="userid" />
+                <ScalarProperty Name="createtime" ColumnName="createtime" />
+                <ScalarProperty Name="secondcompanyid" ColumnName="secondcompanyid" />
+                <ScalarProperty Name="firstcompanyid" ColumnName="firstcompanyid" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="无" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

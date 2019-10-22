@@ -1,0 +1,960 @@
+﻿@model ZcProjectManage.Company
+@using ZcProjectManage.Controllers
+@{
+    var TypeTags = ViewBag.TypeTags as List<projectype>;
+    var AppTags = ViewBag.AppTags as List<projectype>;
+    var Models = ViewBag.Models as List<model>;
+    var Projects = ViewBag.Projects as List<project>;
+    var companyTypes = ViewBag.companyTypes as Dictionary<CompanyTypeModel, CompanyTypeModel[]>;
+}
+<div>
+    <div class="container-fluid">
+        <div class="side-body">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <div class="title">公司信息</div>
+                            </div>
+                        </div>
+                        @if (ViewBag.userType == 0)
+                        {
+                            <div class="form-group">
+                                <label for="companyname">公司名称</label>
+                                <input type="text" class="form-control" id="companyname" value="@Model.name" disabled="disabled">
+                            </div>
+                            <div class="form-group">
+                                <label for="companyaddress">地址</label>
+                                <input type="text" class="form-control" id="companyaddress" value="@Model.address" disabled="disabled">
+                            </div>
+                            <div class="form-group">
+                                <label for="officialweb">官网</label>
+                                <input type="text" class="form-control" id="officialweb">
+                            </div>
+                            <div class="form-group">
+                                <label for="connector">联系人姓名</label>
+                                <input type="text" class="form-control" id="connector" value="@Model.connector" disabled="disabled">
+                            </div>
+                            <div class="form-group">
+                                <label for="connectornum">引荐人，推荐人</label>
+                                <input type="text" class="form-control" id="connectornum" value="@Model.connectnum" disabled="disabled">
+                            </div>
+                            <div class="form-group">
+                                <label for="connectorpos">联系人职位</label>
+                                <input type="text" class="form-control" id="connectorpos" value="@Model.connectorpos" disabled="disabled">
+                            </div>
+                            <div class="form-group">
+                                <label for="companyname">类型</label>
+                                <select class="form-control" id="companytype" disabled>
+                                    @foreach (var typeKey in companyTypes.Keys)
+                                    {
+                                        <optgroup label="@typeKey.name">
+                                            @foreach (var type in companyTypes[typeKey])
+                                            {
+                                                if (Model.type == type.id)
+                                                {
+                                                    <option value="@type.id" selected>@type.name</option>
+                                                }
+                                                else
+                                                {
+                                                    <option value="@type.id">@type.name</option>
+                                                }
+
+                                            }
+                                            @if (Model.type == typeKey.id)
+                                            {
+                                                <option value="@typeKey.id" selected>@typeKey.name</option>
+                                            }
+                                        </optgroup>
+                                    }
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                @{
+                                    var model1 = Models.SingleOrDefault(t => t.type == "公司简介");
+
+                                }
+                                <label for="companysummary" class="form-control">公司简介</label>
+                                <label for="companysummary">标签</label>
+
+                                @if (model1 != null)
+                                {
+                                    var model1ids = model1.typeids.Split(',');
+                                    <select id="companysummary-tagselect" class="select6" multiple disabled>
+                                        <optgroup label="类型标签">
+                                            @foreach (var tag in TypeTags)
+                                            {
+                                                if (model1ids.Contains(tag.id.ToString()))
+                                                {
+                                                    <option value="@tag.id" class="option_eight" selected>@tag.name</option>
+                                                }
+                                                else
+                                                {
+                                                    <option value="@tag.id" class="option_eight">@tag.name</option>
+                                                }
+
+                                            }
+                                        </optgroup>
+                                        <optgroup label="应用场景标签">
+                                            @foreach (var tag in AppTags)
+                                            {
+                                                if (model1ids.Contains(tag.id.ToString()))
+                                                {
+                                                    <option value="@tag.id" class="option_eight" selected>@tag.name</option>
+                                                }
+                                                else
+                                                {
+                                                    <option value="@tag.id" class="option_eight">@tag.name</option>
+                                                }
+                                            }
+                                        </optgroup>
+                                    </select>
+                                    <script id="companysummary-uediter" type="text/plain" style="width:100%;height:400px;">
+                                    </script>
+                                    <input value="@model1.uediitercontent" id="model1-uediitercontent" style="display:none" disabled="disabled" />
+
+                                    if (!string.IsNullOrWhiteSpace(model1.file))
+                                    {
+                                        var files = model1.file.Split(';');
+                                        foreach (var file in files)
+                                        {
+                                            <button class="form-control btn-danger" onclick="window.open('@file')" style="width:60%">@file.Split('$')[file.Split('$').Length - 1]</button>
+                                        }
+
+                                    }
+                                    <input type="text" class="form-control" id="companysummary-remark" placeholder="备注" value="@model1.remark" disabled="disabled" />
+                                }
+                                else
+                                {
+                                    var model1ids = new List<string>();
+                                    <select id="companysummary-tagselect" class="select6" multiple disabled="disabled">
+                                        <optgroup label="类型标签">
+                                            @foreach (var tag in TypeTags)
+                                            {
+                                                if (model1ids.Contains(tag.id.ToString()))
+                                                {
+                                                    <option value="@tag.id" class="option_eight" selected>@tag.name</option>
+                                                }
+                                                else
+                                                {
+                                                    <option value="@tag.id" class="option_eight">@tag.name</option>
+                                                }
+
+                                            }
+                                        </optgroup>
+                                        <optgroup label="应用场景标签">
+                                            @foreach (var tag in AppTags)
+                                            {
+                                                if (model1ids.Contains(tag.id.ToString()))
+                                                {
+                                                    <option value="@tag.id" class="option_eight" selected>@tag.name</option>
+                                                }
+                                                else
+                                                {
+                                                    <option value="@tag.id" class="option_eight">@tag.name</option>
+                                                }
+                                            }
+                                        </optgroup>
+                                    </select>
+                                    <script id="companysummary-uediter" type="text/plain" style="width:100%;height:400px;">
+                                    </script>
+                                    <input value="" id="model1-uediitercontent" style="display:none" disabled="disabled" />
+
+                                    <input type="text" class="form-control" id="companysummary-remark" placeholder="备注" disabled="disabled" />
+                                }
+
+                            </div>
+
+                            <div class="form-group">
+                                @{
+                                    var model2 = Models.SingleOrDefault(t => t.type == "公司资质");
+                                }
+                                <label for="model2" class="form-control">公司资质</label>
+                                <label for="model2">标签</label>
+                                @if (model2 != null)
+                                {
+                                    var model2ids = model2.typeids.Split(',');
+                                    <select id="model2-tagselect" class="select6" multiple disabled="disabled">
+                                        <optgroup label="类型标签">
+                                            @foreach (var tag in TypeTags)
+                                            {
+                                                if (model2ids.Contains(tag.id.ToString()))
+                                                {
+                                                    <option value="@tag.id" class="option_eight" selected>@tag.name</option>
+                                                }
+                                                else
+                                                {
+                                                    <option value="@tag.id" class="option_eight">@tag.name</option>
+                                                }
+                                            }
+                                        </optgroup>
+                                        <optgroup label="应用场景标签">
+                                            @foreach (var tag in AppTags)
+                                            {
+                                                if (model2ids.Contains(tag.id.ToString()))
+                                                {
+                                                    <option value="@tag.id" class="option_eight" selected>@tag.name</option>
+                                                }
+                                                else
+                                                {
+                                                    <option value="@tag.id" class="option_eight">@tag.name</option>
+                                                }
+                                            }
+                                        </optgroup>
+                                    </select>
+                                    <script id="model2-uediter" type="text/plain" style="width:100%;height:400px;">
+                                    </script>
+                                    <input value="@model2.uediitercontent" id="model2-uediitercontent" style="display:none" disabled="disabled" />
+
+                                    if (!string.IsNullOrWhiteSpace(model2.file))
+                                    {
+                                        var files = model1.file.Split(';');
+                                        foreach (var file in files)
+                                        {
+                                            <button class="form-control btn-danger" onclick="window.open('@file')" style="width:60%">@file.Split('$')[file.Split('$').Length - 1]</button>
+                                        }
+
+                                    }
+
+                                    <input type="text" class="form-control" id="model2-remark" placeholder="备注" value="@model2.remark" disabled="disabled" />
+                                }
+                                else
+                                {
+                                    var model2ids = new List<string>();
+                                    <select id="model2-tagselect" class="select6" multiple disabled>
+                                        <optgroup label="类型标签">
+                                            @foreach (var tag in TypeTags)
+                                            {
+                                                if (model2ids.Contains(tag.id.ToString()))
+                                                {
+                                                    <option value="@tag.id" class="option_eight" selected>@tag.name</option>
+                                                }
+                                                else
+                                                {
+                                                    <option value="@tag.id" class="option_eight">@tag.name</option>
+                                                }
+                                            }
+                                        </optgroup>
+                                        <optgroup label="应用场景标签">
+                                            @foreach (var tag in AppTags)
+                                            {
+                                                if (model2ids.Contains(tag.id.ToString()))
+                                                {
+                                                    <option value="@tag.id" class="option_eight" selected>@tag.name</option>
+                                                }
+                                                else
+                                                {
+                                                    <option value="@tag.id" class="option_eight">@tag.name</option>
+                                                }
+                                            }
+                                        </optgroup>
+                                    </select>
+                                    <script id="model2-uediter" type="text/plain" style="width:100%;height:400px;">
+                                    </script>
+                                    <input value="" id="model2-uediitercontent" style="display:none" disabled="disabled" />
+                                    <input type="text" class="form-control" id="model2-remark" placeholder="备注" disabled="disabled" />
+                                }
+
+
+                            </div>
+
+                            <div class="form-group">
+                                @{
+                                    var model3 = Models.SingleOrDefault(t => t.type == "产品信息");
+
+                                }
+                                <label for="model3" class="form-control">产品信息</label>
+
+                                @if (model3 != null)
+                                {
+                                    <input type="text" class="form-control" id="model3-remark" placeholder="项目名称" value="@model3.remark" disabled="disabled" />
+                                    <label for="model3">标签</label>
+
+                                    var model3ids = model3.typeids.Split(',');
+                                    <select id="model3-tagselect" class="select6" multiple disabled>
+                                        <optgroup label="类型标签">
+                                            @foreach (var tag in TypeTags)
+                                            {
+                                                if (model3ids.Contains(tag.id.ToString()))
+                                                {
+                                                    <option value="@tag.id" class="option_eight" selected>@tag.name</option>
+                                                }
+                                                else
+                                                {
+                                                    <option value="@tag.id" class="option_eight">@tag.name</option>
+                                                }
+                                            }
+                                        </optgroup>
+                                        <optgroup label="应用场景标签">
+                                            @foreach (var tag in AppTags)
+                                            {
+                                                if (model3ids.Contains(tag.id.ToString()))
+                                                {
+                                                    <option value="@tag.id" class="option_eight" selected>@tag.name</option>
+                                                }
+                                                else
+                                                {
+                                                    <option value="@tag.id" class="option_eight">@tag.name</option>
+                                                }
+                                            }
+                                        </optgroup>
+                                    </select>
+                                    <script id="model3-uediter" type="text/plain" style="width:100%;height:400px;">
+                                    </script>
+                                    <input value="@model3.uediitercontent" id="model3-uediitercontent" style="display:none" disabled="disabled" />
+
+                                    if (!string.IsNullOrWhiteSpace(model3.file))
+                                    {
+                                        var files = model1.file.Split(';');
+                                        foreach (var file in files)
+                                        {
+                                            <button class="form-control btn-danger" onclick="window.open('@file')" style="width:60%">@file.Split('$')[file.Split('$').Length - 1]</button>
+                                        }
+
+                                    }
+
+                                    <input type="text" class="form-control" id="model3-remark" placeholder="备注" value="@model3.remark" disabled="disabled" />
+                                }
+                                else
+                                {
+
+                                    var model3ids = new List<string>();
+                                    <input type="text" class="form-control" id="model3-remark" placeholder="备注" disabled="disabled" />
+                                    <label for="model3">标签</label>
+                                    <select id="model3-tagselect" class="select6" multiple disabled>
+                                        <optgroup label="类型标签">
+                                            @foreach (var tag in TypeTags)
+                                            {
+                                                if (model3ids.Contains(tag.id.ToString()))
+                                                {
+                                                    <option value="@tag.id" class="option_eight" selected>@tag.name</option>
+                                                }
+                                                else
+                                                {
+                                                    <option value="@tag.id" class="option_eight">@tag.name</option>
+                                                }
+                                            }
+                                        </optgroup>
+                                        <optgroup label="应用场景标签">
+                                            @foreach (var tag in AppTags)
+                                            {
+                                                if (model3ids.Contains(tag.id.ToString()))
+                                                {
+                                                    <option value="@tag.id" class="option_eight" selected>@tag.name</option>
+                                                }
+                                                else
+                                                {
+                                                    <option value="@tag.id" class="option_eight">@tag.name</option>
+                                                }
+                                            }
+                                        </optgroup>
+                                    </select>
+                                    <script id="model3-uediter" type="text/plain" style="width:100%;height:400px;">
+                                    </script>
+                                    <input value="" id="model3-uediitercontent" style="display:none" disabled="disabled" />
+                                }
+
+
+                            </div>
+
+                            <div class="form-group">
+                                <label for="projects">关联项目</label>
+                                <div>
+                                    @foreach (var project in Projects)
+                                    {
+                                        <a class="form-control" href="/Main/Index?cname=Project&aname=Index&id=@project.id">@project.name</a>
+                                    }
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="remark">备注</label>
+                                <input type="text" class="form-control" id="remark" value="@Model.remark" disabled="disabled">
+                            </div>
+                            <div class="form-group">
+                                @if (!string.IsNullOrWhiteSpace(Model.description))
+                                {
+                                    <button class="form-control btn-danger" onclick="window.open('@Model.description')" style="width:60%">@Model.description.Substring(91, Model.description.Length - 91)</button>
+                                }
+                            </div>
+                            <input id="usertype" value="@ViewBag.userType" style="display:none" />
+                        }
+                        else
+                        {
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <label for="companyname">公司名称</label>
+                                    <input type="text" class="form-control" id="companyname" value="@Model.name">
+                                </div>
+                                <div class="form-group">
+                                    <label for="companyaddress">地址</label>
+                                    <input type="text" class="form-control" id="companyaddress" value="@Model.address">
+                                </div>
+                                <div class="form-group">
+                                    <label for="officialweb">官网</label>
+                                    <input type="text" class="form-control" id="officialweb" value="@Model.officiaweb">
+                                </div>
+                                <div class="form-group">
+                                    <label for="connector">联系人姓名</label>
+                                    <input type="text" class="form-control" id="connector" value="@Model.connector">
+                                </div>
+                                <div class="form-group">
+                                    <label for="connectornum">引荐人，推荐人</label>
+                                    <input type="text" class="form-control" id="connectornum" value="@Model.connectnum">
+                                </div>
+                                <div class="form-group">
+                                    <label for="connectorpos">联系人职位</label>
+                                    <input type="text" class="form-control" id="connectorpos" value="@Model.connectorpos">
+                                </div>
+                                <div class="form-group">
+                                    <label for="companyname">类型</label>
+                                    <select class="form-control" id="companytype">
+                                        @foreach (var typeKey in companyTypes.Keys)
+                                        {
+                                            <optgroup label="@typeKey.name">
+                                                @foreach (var type in companyTypes[typeKey])
+                                                {
+                                                    if (Model.type == type.id)
+                                                    {
+                                                        <option value="@type.id" selected>@type.name</option>
+                                                    }
+                                                    else
+                                                    {
+                                                        <option value="@type.id">@type.name</option>
+                                                    }
+
+                                                }
+                                                @if (Model.type == typeKey.id)
+                                                {
+                                                    <option value="@typeKey.id" selected>@typeKey.name</option>
+                                                }
+                                            </optgroup>
+                                        }
+
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    @{
+                                        var model1 = Models.SingleOrDefault(t => t.type == "公司简介");
+
+                                    }
+                                    <label for="companysummary" class="form-control">公司简介</label>
+                                    <label for="companysummary">标签</label>
+
+                                    @if (model1 != null)
+                                    {
+                                        var model1ids = model1.typeids.Split(',');
+                                        <select id="companysummary-tagselect" class="select6" multiple>
+                                            <optgroup label="类型标签">
+                                                @foreach (var tag in TypeTags)
+                                                {
+                                                    if (model1ids.Contains(tag.id.ToString()))
+                                                    {
+                                                        <option value="@tag.id" class="option_eight" selected>@tag.name</option>
+                                                    }
+                                                    else
+                                                    {
+                                                        <option value="@tag.id" class="option_eight">@tag.name</option>
+                                                    }
+
+                                                }
+                                            </optgroup>
+                                            <optgroup label="应用场景标签">
+                                                @foreach (var tag in AppTags)
+                                                {
+                                                    if (model1ids.Contains(tag.id.ToString()))
+                                                    {
+                                                        <option value="@tag.id" class="option_eight" selected>@tag.name</option>
+                                                    }
+                                                    else
+                                                    {
+                                                        <option value="@tag.id" class="option_eight">@tag.name</option>
+                                                    }
+                                                }
+                                            </optgroup>
+                                        </select>
+                                        <script id="companysummary-uediter" type="text/plain" style="width:100%;height:400px;">
+                                        </script>
+                                        <input value="@model1.uediitercontent" id="model1-uediitercontent" style="display:none" />
+                                        <div class="form-group">
+                                            <label for="companysummary-appendix">附件</label>
+                                            <div class="filedivList">
+                                                @if (!string.IsNullOrWhiteSpace(model1.file))
+                                                {
+                                                    var files = model1.file.Split(';');
+                                                    for (int id = 1; id <= files.Length; id++)
+                                                    {
+                                                        <div class="filediv" data-id="@id">
+                                                            <button class="fileShowBlock" id="companysummary-appendix-@id" onclick="window.open('@files[id-1]')" data-url="@files[id-1]">@files[id - 1].Split('$')[files[id - 1].Split('$').Length - 1]</button>
+                                                            <button onclick="deleteFile(this)" class="companysummary-appendix">删除</button>
+                                                        </div>
+                                                    }
+
+                                                }
+                                                @*<div class="filediv" data-id="10">
+                                    <input type="file" id="companysummary-appendix-10" class="companysummary-appendix" onchange="upload(this)">
+                                </div>*@
+                                            </div>
+                                            <button class="addUploadFileBtn" data-appendixname="companysummary-appendix" onclick="addAppendix(this)">添加附件</button>
+                                            <input type="text" style="display:none" id="companysummary-appendix-text" value="@model1.file" />
+                                        </div>
+
+                                        <input type="text" class="form-control" id="companysummary-remark" placeholder="备注" value="@model1.remark" />
+                                    }
+                                    else
+                                    {
+                                        var model1ids = new List<string>();
+                                        <select id="companysummary-tagselect" class="select6" multiple>
+                                            <optgroup label="类型标签">
+                                                @foreach (var tag in TypeTags)
+                                                {
+                                                    if (model1ids.Contains(tag.id.ToString()))
+                                                    {
+                                                        <option value="@tag.id" class="option_eight" selected>@tag.name</option>
+                                                    }
+                                                    else
+                                                    {
+                                                        <option value="@tag.id" class="option_eight">@tag.name</option>
+                                                    }
+
+                                                }
+                                            </optgroup>
+                                            <optgroup label="应用场景标签">
+                                                @foreach (var tag in AppTags)
+                                                {
+                                                    if (model1ids.Contains(tag.id.ToString()))
+                                                    {
+                                                        <option value="@tag.id" class="option_eight" selected>@tag.name</option>
+                                                    }
+                                                    else
+                                                    {
+                                                        <option value="@tag.id" class="option_eight">@tag.name</option>
+                                                    }
+                                                }
+                                            </optgroup>
+                                        </select>
+                                        <script id="companysummary-uediter" type="text/plain" style="width:100%;height:400px;">
+                                        </script>
+                                        <input value="" id="model1-uediitercontent" style="display:none" />
+                                        <div class="form-group">
+                                            <label for="companysummary-appendix">附件</label>
+                                            <input type="file" id="companysummary-appendix" onchange="upload(this)">
+                                            <input type="text" style="display:none" id="companysummary-appendix-text" />
+                                        </div>
+                                        <input type="text" class="form-control" id="companysummary-remark" placeholder="备注" />
+                                    }
+
+                                </div>
+
+                                <div class="form-group">
+                                    @{
+                                        var model2 = Models.SingleOrDefault(t => t.type == "公司资质");
+                                    }
+                                    <label for="model2" class="form-control">公司资质</label>
+                                    <label for="model2">标签</label>
+                                    @if (model2 != null)
+                                    {
+                                        var model2ids = model2.typeids.Split(',');
+                                        <select id="model2-tagselect" class="select6" multiple>
+                                            <optgroup label="类型标签">
+                                                @foreach (var tag in TypeTags)
+                                                {
+                                                    if (model2ids.Contains(tag.id.ToString()))
+                                                    {
+                                                        <option value="@tag.id" class="option_eight" selected>@tag.name</option>
+                                                    }
+                                                    else
+                                                    {
+                                                        <option value="@tag.id" class="option_eight">@tag.name</option>
+                                                    }
+                                                }
+                                            </optgroup>
+                                            <optgroup label="应用场景标签">
+                                                @foreach (var tag in AppTags)
+                                                {
+                                                    if (model2ids.Contains(tag.id.ToString()))
+                                                    {
+                                                        <option value="@tag.id" class="option_eight" selected>@tag.name</option>
+                                                    }
+                                                    else
+                                                    {
+                                                        <option value="@tag.id" class="option_eight">@tag.name</option>
+                                                    }
+                                                }
+                                            </optgroup>
+                                        </select>
+                                        <script id="model2-uediter" type="text/plain" style="width:100%;height:400px;">
+                                        </script>
+                                        <input value="@model2.uediitercontent" id="model2-uediitercontent" style="display:none" />
+                                        <div class="form-group">
+                                            <label for="model2-appendix">附件</label>
+                                            <div class="filedivList">
+                                                @if (!string.IsNullOrWhiteSpace(model2.file))
+                                                {
+                                                    var files = model2.file.Split(';');
+                                                    for (int id = 1; id <= files.Length; id++)
+                                                    {
+                                                        <div class="filediv" data-id="@id">
+                                                            <button class="fileShowBlock" id="model2-appendix-@id" onclick="window.open('@files[id-1]')" data-url="@files[id-1]">@files[id - 1].Split('$')[files[id - 1].Split('$').Length - 1]</button>
+                                                            <button onclick="deleteFile(this)" class="model2-appendix">删除</button>
+                                                        </div>
+                                                    }
+
+                                                }
+                                            </div>
+                                            <button class="addUploadFileBtn" data-appendixName="model2-appendix" onclick="addAppendix(this)">添加附件</button>
+                                            <input type="text" style="display:none" id="model2-appendix-text" value="@model2.file" />
+                                        </div>
+                                        <input type="text" class="form-control" id="model2-remark" placeholder="备注" value="@model2.remark" />
+                                    }
+                                    else
+                                    {
+                                        var model2ids = new List<string>();
+                                        <select id="model2-tagselect" class="select6" multiple>
+                                            <optgroup label="类型标签">
+                                                @foreach (var tag in TypeTags)
+                                                {
+                                                    if (model2ids.Contains(tag.id.ToString()))
+                                                    {
+                                                        <option value="@tag.id" class="option_eight" selected>@tag.name</option>
+                                                    }
+                                                    else
+                                                    {
+                                                        <option value="@tag.id" class="option_eight">@tag.name</option>
+                                                    }
+                                                }
+                                            </optgroup>
+                                            <optgroup label="应用场景标签">
+                                                @foreach (var tag in AppTags)
+                                                {
+                                                    if (model2ids.Contains(tag.id.ToString()))
+                                                    {
+                                                        <option value="@tag.id" class="option_eight" selected>@tag.name</option>
+                                                    }
+                                                    else
+                                                    {
+                                                        <option value="@tag.id" class="option_eight">@tag.name</option>
+                                                    }
+                                                }
+                                            </optgroup>
+                                        </select>
+                                        <script id="model2-uediter" type="text/plain" style="width:100%;height:400px;">
+                                        </script>
+                                        <input value="" id="model2-uediitercontent" style="display:none" />
+                                        <div class="form-group">
+                                            <label for="model2-appendix">附件</label>
+                                            <input type="file" id="model2-appendix" onchange="upload(this)">
+                                            <input type="text" style="display:none" id="model2-appendix-text" />
+                                            <p class="help-block">多个文件请压缩</p>
+                                        </div>
+                                        <input type="text" class="form-control" id="model2-remark" placeholder="备注" />
+                                    }
+
+
+                                </div>
+
+                                <div class="form-group">
+                                    @{
+                                        var model3 = Models.SingleOrDefault(t => t.type == "产品信息");
+
+                                    }
+                                    <label for="model3" class="form-control">产品信息</label>
+
+                                    @if (model3 != null)
+                                    {
+                                        <input type="text" class="form-control" id="model3-remark" placeholder="项目名称" value="@model3.remark" />
+                                        <label for="model3">标签</label>
+
+                                        var model3ids = model3.typeids.Split(',');
+                                        <select id="model3-tagselect" class="select6" multiple>
+                                            <optgroup label="类型标签">
+                                                @foreach (var tag in TypeTags)
+                                                {
+                                                    if (model3ids.Contains(tag.id.ToString()))
+                                                    {
+                                                        <option value="@tag.id" class="option_eight" selected>@tag.name</option>
+                                                    }
+                                                    else
+                                                    {
+                                                        <option value="@tag.id" class="option_eight">@tag.name</option>
+                                                    }
+                                                }
+                                            </optgroup>
+                                            <optgroup label="应用场景标签">
+                                                @foreach (var tag in AppTags)
+                                                {
+                                                    if (model3ids.Contains(tag.id.ToString()))
+                                                    {
+                                                        <option value="@tag.id" class="option_eight" selected>@tag.name</option>
+                                                    }
+                                                    else
+                                                    {
+                                                        <option value="@tag.id" class="option_eight">@tag.name</option>
+                                                    }
+                                                }
+                                            </optgroup>
+                                        </select>
+                                        <script id="model3-uediter" type="text/plain" style="width:100%;height:400px;">
+                                        </script>
+                                        <input value="@model3.uediitercontent" id="model3-uediitercontent" style="display:none" />
+                                        <div class="form-group">
+                                            <label for="model3-appendix">附件</label>
+                                            <div class="filedivList">
+                                                @if (!string.IsNullOrWhiteSpace(model3.file))
+                                                {
+                                                    var files = model3.file.Split(';');
+                                                    for (int id = 1; id <= files.Length; id++)
+                                                    {
+                                                        <div class="filediv" data-id="@id">
+                                                            <button class="fileShowBlock" id="model3-appendix-@id" onclick="window.open('@files[id-1]')" data-url="@files[id-1]">@files[id - 1].Split('$')[files[id - 1].Split('$').Length - 1]</button>
+                                                            <button onclick="deleteFile(this)" class="model3-appendix">删除</button>
+                                                        </div>
+                                                    }
+                                                }
+                                            </div>
+                                            <button class="addUploadFileBtn" data-appendixName="model3-appendix" onclick="addAppendix(this)">添加附件</button>
+                                            <input type="text" style="display:none" id="model3-appendix-text" value="@model3.file" />
+                                        </div>
+                                        <input type="text" class="form-control" id="model3-remark" placeholder="备注" value="@model3.remark" />
+                                    }
+                                    else
+                                    {
+
+                                        var model3ids = new List<string>();
+                                        <input type="text" class="form-control" id="model3-remark" placeholder="备注" />
+                                        <label for="model3">标签</label>
+                                        <select id="model3-tagselect" class="select6" multiple>
+                                            <optgroup label="类型标签">
+                                                @foreach (var tag in TypeTags)
+                                                {
+                                                    if (model3ids.Contains(tag.id.ToString()))
+                                                    {
+                                                        <option value="@tag.id" class="option_eight" selected>@tag.name</option>
+                                                    }
+                                                    else
+                                                    {
+                                                        <option value="@tag.id" class="option_eight">@tag.name</option>
+                                                    }
+                                                }
+                                            </optgroup>
+                                            <optgroup label="应用场景标签">
+                                                @foreach (var tag in AppTags)
+                                                {
+                                                    if (model3ids.Contains(tag.id.ToString()))
+                                                    {
+                                                        <option value="@tag.id" class="option_eight" selected>@tag.name</option>
+                                                    }
+                                                    else
+                                                    {
+                                                        <option value="@tag.id" class="option_eight">@tag.name</option>
+                                                    }
+                                                }
+                                            </optgroup>
+                                        </select>
+                                        <script id="model3-uediter" type="text/plain" style="width:100%;height:400px;">
+                                        </script>
+                                        <input value="" id="model3-uediitercontent" style="display:none" />
+                                        <div class="form-group">
+                                            <label for="model3-appendix">附件</label>
+                                            <input type="file" id="model3-appendix" onchange="upload(this)">
+                                            <input type="text" style="display:none" id="model3-appendix-text" />
+                                            <p class="help-block">多个文件请压缩</p>
+                                        </div>
+
+
+                                    }
+
+
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="projects">关联项目</label>
+                                    <div>
+                                        @foreach (var project in Projects)
+                                        {
+                                            <a class="form-control" href="/Main/Index?cname=Project&aname=Index&id=@project.id">@project.name</a>
+                                        }
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="remark">备注</label>
+                                    <input type="text" class="form-control" id="remark" value="@Model.remark">
+                                </div>
+                                <div class="form-group">
+                                    <label for="appendix">附件</label>
+                                    <div class="filedivList">
+                                        @if (!string.IsNullOrWhiteSpace(Model.description))
+                                        {
+                                            var files = Model.description.Split(';');
+                                            for (int id = 1; id <= files.Length; id++)
+                                            {
+                                                <div class="filediv" data-id="@id">
+                                                    <button class="fileShowBlock" id="appendix-@id" onclick="window.open('@files[id-1]')" data-url="@files[id-1]">@files[id - 1].Split('$')[files[id - 1].Split('$').Length - 1]</button>
+                                                    <button onclick="deleteFile(this)" class="appendix">删除</button>
+                                                </div>
+                                            }
+
+                                        }
+                                        @*<div class="filediv" data-id="10">
+                            <input type="file" id="companysummary-appendix-10" class="companysummary-appendix" onchange="upload(this)">
+                        </div>*@
+                                    </div>
+                                    <button class="addUploadFileBtn" data-appendixname="appendix" onclick="addAppendix(this)">添加附件</button>
+                                    <input type="text" style="display:none" id="appendix-text" value="@Model.description" />
+
+                                </div>
+                                @if (ViewBag.userType == 1)
+                                {
+                                    <button class="btn btn-default savecompany" data-id="@Model.id" style="background-color:lightskyblue">保存</button>
+                                }
+                                <input id="usertype" value="@ViewBag.userType" style="display:none" />
+                            </div>
+                        }
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="mark" style="width:75px;height:75px"><img src="http://xtu1511.820803.xyz/Upload/load3.gif" /></div>
+<script>
+
+
+    var csummaryuediter = UE.getEditor('companysummary-uediter');
+    var model2uediter = UE.getEditor('model2-uediter');
+    var model3uediter = UE.getEditor('model3-uediter');
+
+    var companysummaryTagselect = $('#companysummary-tagselect');
+    var model2Tagselect = $('#model2-tagselect');
+    var model3Tagselect = $('#model3-tagselect');
+    window.setTimeout(setContent, 1000);
+    function setContent() {
+        csummaryuediter.setContent($("#model1-uediitercontent").val());
+        model2uediter.setContent($("#model2-uediitercontent").val());
+        model3uediter.setContent($("#model3-uediitercontent").val());
+        window.setTimeout(setUeDisable, 500);
+    }
+    function setUeDisable() {
+        if ($("#usertype").val() == 0) {
+            csummaryuediter.setDisabled();
+            model2uediter.setDisabled();
+            model3uediter.setDisabled();
+        }
+    }
+
+    $(".savecompany").click(function () {
+        //公司简介
+        var companySummaryItem = { type: '公司简介', uediitercontent: csummaryuediter.getContent(), typeids: ArrayToStr(companysummaryTagselect.val()), file: $("#companysummary-appendix-text").val(), remark: $('#companysummary-remark').val() };
+        //公司资质
+        var model2Item = { type: '公司资质', uediitercontent: model2uediter.getContent(), typeids: ArrayToStr(model2Tagselect.val()), file: $("#model2-appendix-text").val(), remark: $('#model2-remark').val() };
+        //产品信息
+        var model3Item = { type: '产品信息', uediitercontent: model3uediter.getContent(), typeids: ArrayToStr(model3Tagselect.val()), file: $("#model3-appendix-text").val(), remark: $('#model3-remark').val() };
+
+        console.log(ArrayToStr(companysummaryTagselect.val()));
+        console.log(model2Tagselect.val());
+        console.log(model3Tagselect.val());
+
+        var companyname = $("#companyname").val();
+        var companytype = $("#companytype").val();
+        var companyaddress = $("#companyaddress").val();
+        var connector = $("#connector").val();
+        var connectornum = $("#connectornum").val();
+        var connectorpos = $("#connectorpos").val();
+        var remark = $("#remark").val();
+        var appendixurl = $("#appendix-text").val();
+        var id = $(this).data("id");
+        var officialweb = $("#officialweb").val();
+        $.ajax({
+            type: 'post',
+            url: '/Company/SaveCompany',
+            data: {
+                Company: { id: id, name: companyname, type: companytype, address: companyaddress, connector: connector, connectnum: connectornum, connectorpos: connectorpos, remark: remark, description: appendixurl, officiaweb: officialweb },
+                Models: [
+                    companySummaryItem,
+                    model2Item,
+                    model3Item
+                ]
+            },
+            dataType: 'json',
+            success: function (result) {
+                if (result.State == 1) {
+                    alert("修改成功");
+                    window.location.reload();
+                } else {
+                    alert("添加失败：信息如下：\n" + result.Messgae);
+                }
+            }
+        });
+    });
+
+    function addAppendix(obj) {
+        var fatherObj = $(obj).parent();
+        var filedivList = fatherObj.children('.filedivList');
+        var fileDivs = filedivList.children('.filediv');
+        var ids = [];
+        console.log(fileDivs.length);
+        for (var i = 0; i < fileDivs.length; i++) {
+            ids.push($(fileDivs[i]).data("id"));
+        }
+        var appendixname = $(obj).data("appendixname");
+        console.log(appendixname);
+        for (var i = 1; i <= 100; i++) {
+            if (ids.indexOf(i) == -1) {
+                var htmlContent = '<div class="filediv" data-id="' + i + '">' +
+                    '<input type="file" id="' + appendixname + '-' + i + '" class="' + appendixname+'" onchange="upload(this)" style="float:left" >'
+                    + '<button onclick="deleteFile(this)" class="' + appendixname+'" >删除</button>'
+                    + '</div>';
+                //$(fileDivs[fileDivs.length - 1]).append(htmlContent);
+                $(filedivList).append(htmlContent);
+                break;
+            }
+        }
+
+    }
+
+    function deleteFile(obj) {
+        var parent = $(obj).parent();
+        var id = $(parent).data("id");
+        console.log(parent);
+        var url = $("#" + $(obj).prop("className") + "-" + id).data("url");
+        $("#" + $(obj).prop("className") + "-text").val($("#" + $(obj).prop("className") + "-text").val().replace(url, ''));
+        parent.remove();
+        console.log($("#" + $(obj).prop("className") + "-text").val());
+    }
+
+    function upload(obj) {
+        var file = obj.files[0];
+        var form = new FormData();
+        console.log("#" + $(obj).prop("className") + "-text");
+        form.append("file", file);
+        $.ajax({
+            url: "http://www.820803.xyz:2001/api/file/PostFileForPath",
+            type: "post",
+            data: form,
+            processData: false,
+            contentType: false,
+            dataType: 'json',
+            async: true,
+            success: function (data) {
+                console.log($("#" + $(obj).prop("className") + "-text").val());
+                if (data == "") {
+                    alert("上传失败");
+                } else {
+                    var text = $("#" + $(obj).prop("className") + "-text").val();
+                    $("#" + $(obj).prop("className") + "-text").val(text == '' ? data : text + ';' + data);
+                    console.log($("#" + $(obj).prop("className") + "-text").val());
+                    $(obj).attr("data-url", data);
+                }
+            },
+            fail: function (data) {
+                alert(data);
+            }
+        });
+    }
+</script>
+

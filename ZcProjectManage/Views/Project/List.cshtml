@@ -1,0 +1,121 @@
+﻿@{
+    var states = ViewBag.states as Dictionary<int, string>;
+    var firstCompany = ViewBag.FirstComany as List<Company>;
+    var secondCompany = ViewBag.SecondComany as List<Company>;
+}
+<div style="margin-top:-50px">
+    <div class="container-fluid">
+        <div class="side-body">
+            <div class="page-title">
+                <span class="title">项目列表</span>
+                @*<div class="description">with jquery Datatable for display data with most usage functional. such as search, ajax loading, pagination, etc.</div>*@
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="row">
+                                <div class="col-md-12 form-inline">
+                                    <div class="form-group">
+                                        <label>开始时间</label>
+                                        <input class="form-control" id="BeginDate" name="BeginDate" value="@ViewBag.BeginDate">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>
+                                            结束时间
+                                        </label>
+                                        <input class="form-control" id="EndDate" name="EndDate" value="@ViewBag.EndDate">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>
+                                            状态
+                                        </label>
+                                        <select class="form-control" id="State" name="State">
+                                            <option value="-1">全部</option>
+                                            @foreach (var key in states.Keys)
+                                            {
+                                                <option value="@key">@states[key]</option>
+                                            }
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>
+                                            合作方
+                                        </label>
+                                        <select class="form-control" id="firstCompany" name="firstCompany">
+                                            <option value="-1">全部</option>
+                                            @foreach (var cm in firstCompany)
+                                            {
+                                                <option value="@cm.id">@cm.name</option>
+                                            }
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>
+                                            承接方
+                                        </label>
+                                        <select class="form-control" id="secondCompany" name="secondCompany">
+                                            <option value="-1">全部</option>
+                                            @foreach (var cm in secondCompany)
+                                            {
+                                                <option value="@cm.id">@cm.name</option>
+                                            }
+                                        </select>
+                                    </div>
+                                    <input type="text" class="form-control" id="searchkey" style="margin-top:20px" placeholder="项目名关键字"/>
+                                    <button class="btn btn-default btnsearch" style="background-color:lightskyblue;margin-top:20px">查询</button>
+
+                                    <button class="btn btn-default pull-right toAdd" style="background-color:lightskyblue;margin-top:20px">新增项目</button>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body" id="table-content">
+                        @{ Html.RenderAction("ListData", "Project", new { beginDate = ViewBag.BeginDate, endDate = ViewBag.EndDate, key = "" }); }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $('#BeginDate')
+        .datepicker({
+            minView: "month", //选择日期后，不会再跳转去选择时分秒
+            format: "yyyy-mm-dd", //选择日期后，文本框显示的日期格式
+            language: 'zh-CN', //汉化
+            autoclose: true //选择日期后自动关闭
+        });
+
+    $('#EndDate')
+        .datepicker({
+            minView: "month", //选择日期后，不会再跳转去选择时分秒
+            format: "yyyy-mm-dd", //选择日期后，文本框显示的日期格式
+            language: 'zh-CN', //汉化
+            autoclose: true //选择日期后自动关闭
+        });
+
+    $(".btnsearch").click(function () {
+        var begindate = $("#BeginDate").val();
+        var enddate = $("#EndDate").val();
+        var key = $("#searchkey").val();
+        var state = $("#State").val();
+        $.ajax({
+            type: 'post',
+            url: '/Project/ListData',
+            data: { beginDate: begindate, endDate: enddate, key: key, state: state, firstId: $("#firstCompany").val(), secondId: $("#secondCompany").val()},
+            dataType: 'html',
+            success: function (data) {
+                $("#table-content").html("");
+                $("#table-content").html(data);
+            }
+        });
+    })
+
+    $(".toAdd").click(function () {
+        window.location.href = "http://" + window.location.hostname + ":" + window.location.port + "/Main/Index?cname=Project&aname=Add";
+    });
+</script>
+
+

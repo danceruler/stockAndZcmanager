@@ -1,0 +1,249 @@
+﻿@{ 
+    var FirstCompanies = ViewBag.FirstCompanies as List<Company>;
+    var SecondCompanies = ViewBag.SecondCompanies as List<Company>;
+    var TypeTags = ViewBag.TypeTags as List<projectype>;
+    var AppTags = ViewBag.AppTags as List<projectype>;
+}
+
+<div>
+    <div class="container-fluid">
+        <div class="side-body">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <div class="title">项目信息</div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label for="projectname">项目名称</label>
+                                <input type="text" class="form-control" id="projectname">
+                            </div>
+                            <div class="form-group">
+                                <label for="type">标签</label>
+                                <select id="type" class="select6" multiple>
+                                    <optgroup label="类型标签">
+                                        @foreach (var tag in TypeTags)
+                                        {
+                                            <option value="@tag.id" class="option_eight">@tag.name</option>
+                                        }
+                                    </optgroup>
+                                    <optgroup label="应用场景标签">
+                                        @foreach (var tag in AppTags)
+                                        {
+                                            <option value="@tag.id" class="option_eight">@tag.name</option>
+                                        }
+                                    </optgroup>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="state">状态</label>
+                                <select class="form-control" id="state">
+                                    <option value="1">待对接（默认）</option>
+                                    <option value="2">正在合作</option>
+                                    <option value="3">正在实施</option>
+                                    <option value="4">实施完成（待交接）</option>
+                                    <option value="5">项目完成</option>
+                                    <option value="0">项目停滞</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="secondcompany">承接单位</label>
+                                <select class="form-control" id="secondcompany">
+                                    @foreach (var company in SecondCompanies)
+                                    {
+                                        <option value="@company.id">@company.name</option>
+                                    }
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="firstcompany">合作公司</label>
+                                <select class="form-control" id="firstcompany">
+                                    @foreach (var company in FirstCompanies)
+                                    {
+                                        <option value="@company.id">@company.name</option>
+                                    }
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="earlycontent">前期需求</label>
+                                <script id="earlycontent" type="text/plain" style="width:100%;height:400px;">
+                                </script>
+                                @*<textarea id="earlycontent" class="form-control" style="resize: none;" rows="5"></textarea>*@
+                            </div>
+                            <div class="form-group">
+                                <label for="earlyfiles">前期需求附件</label>
+                                <div class="filedivList">
+                                    <div class="filediv" data-id="1">
+                                        <input type="file" id="earlyfiles-1" class="earlyfiles" onchange="upload(this)">
+                                    </div>
+                                </div>
+                                <button class="addUploadFileBtn" data-appendixName="earlyfiles" onclick="addAppendix(this)">添加附件</button>
+                                <input type="text" style="display:none" id="earlyfiles-text" />
+                            </div>
+                            <div class="form-group">
+                                <label for="solutioncontent">项目解决方案</label>
+                                <script id="solutioncontent" type="text/plain" style="width:100%;height:400px;">
+                                </script>
+                                @*<textarea id="solutioncontent" class="form-control" style="resize: none;" rows="5"></textarea>*@
+                            </div>
+                            <div class="form-group">
+                                <label for="solutionfiles">项目解决方案附件</label>
+                                <div class="filedivList">
+                                    <div class="filediv" data-id="1">
+                                        <input type="file" id="solutionfiles-1" class="solutionfiles" onchange="upload(this)">
+                                    </div>
+                                </div>
+                                <button class="addUploadFileBtn" data-appendixName="solutionfiles" onclick="addAppendix(this)">添加附件</button>
+                                <input type="text" style="display:none" id="solutionfiles-text" />
+                            </div>
+                            <div class="form-group">
+                                <label for="finalcontent">最终实施方案</label>
+                                <script id="finalcontent" type="text/plain" style="width:100%;height:400px;">
+                                </script>
+                                @*<textarea id="finalcontent" class="form-control" style="resize: none;" rows="5"></textarea>*@
+                            </div>
+                            <div class="form-group">
+                                <label for="finalfiles">最终实施方案附件</label>
+                                <div class="filedivList">
+                                    <div class="filediv" data-id="1">
+                                        <input type="file" id="finalfiles-1" class="finalfiles" onchange="upload(this)">
+                                    </div>
+                                </div>
+                                <button class="addUploadFileBtn" data-appendixName="finalfiles" onclick="addAppendix(this)">添加附件</button>
+                                <input type="text" style="display:none" id="finalfiles-text" />
+                            </div>
+
+                            <div class="form-group">
+                                <label for="remark">备注</label>
+                                <input type="text" class="form-control" id="remark">
+                            </div>
+                            <button class="btn btn-default addproject" style="background-color:lightskyblue">增加</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="mark" style="width:75px;height:75px"><img src="http://xtu1511.820803.xyz/Upload/load3.gif" style="width:75px;height:75px" /></div>
+<script>
+    var earlycontentUediter = UE.getEditor('earlycontent');
+    var solutioncontentUediter = UE.getEditor('solutioncontent');
+    var finalcontentUediter = UE.getEditor('finalcontent');
+    var type = $('#type');
+    $(".addproject").click(function () {
+        var projectname = $("#projectname").val();
+        var state = $("#state").val();
+        var typeids = $("#type").val();
+        var secondcompany = $("#secondcompany").val();
+        var firstcompany = $("#firstcompany").val();
+        //var earlycontent = $("#earlycontent").val();
+        var earlycontent = earlycontentUediter.getContent();
+        //var solutioncontent = $("#solutioncontent").val();
+        var solutioncontent = solutioncontentUediter.getContent();
+        //var finalcontent = $("#finalcontent").val();
+        var finalcontent = finalcontentUediter.getContent();
+        var remark = $("#remark").val();
+        var earlyfiles = $("#earlyfiles-text").val();
+        var solutionfiles = $("#solutionfiles-text").val();
+        var finalfiles = $("#finalfiles-text").val();
+
+        $.ajax({
+            type: 'post',
+            url: '/Project/AddProject',
+            data: {
+                name: projectname,
+                firstcompanyid: firstcompany,
+                secondcompanyid: secondcompany,
+                typeids: typeids,
+                state: state,
+                earlyfiles: earlyfiles,
+                solutionfiles: solutionfiles,
+                finalfiles: finalfiles,
+                remark: remark,
+                earlycontent: earlycontent,
+                solutioncontent: solutioncontent,
+                finalcontent: finalcontent
+            },
+            dataType: 'json',
+            success: function (result) {
+                if (result.State == 1) {
+                    alert("添加成功");
+                    $("#projectmenu").trigger('click');
+                } else {
+                    alert("添加失败：信息如下：\n" + result.Messgae);
+                }
+            }
+        });
+    });
+
+    function addAppendix(obj) {
+        var fatherObj = $(obj).parent();
+        var filedivList = fatherObj.children('.filedivList');
+        var fileDivs = filedivList.children('.filediv');
+        var ids = [];
+        console.log(fileDivs.length);
+        for (var i = 0; i < fileDivs.length; i++) {
+            ids.push($(fileDivs[i]).data("id"));
+        }
+        var appendixname = $(obj).data("appendixname");
+        for (var i = 1; i <= 100; i++) {
+            if (ids.indexOf(i) == -1) {
+                var htmlContent = '<div class="filediv" data-id="' + i + '">' +
+                    '<input type="file" id="' + appendixname + '-' + i + '" class="' + appendixname + '" onchange="upload(this)" style="float:left" >'
+                    + '<button onclick="deleteFile(this)" class="' + appendixname + '" >删除</button>'
+                    + '</div>';
+                //$(fileDivs[fileDivs.length - 1]).append(htmlContent);
+                $(filedivList).append(htmlContent);
+                break;
+            }
+        }
+
+    }
+
+    function deleteFile(obj) {
+        var parent = $(obj).parent();
+        var id = $(parent).data("id");
+        console.log(parent);
+        var url = $("#" + $(obj).prop("className") + "-" + id).data("url");
+        $("#" + $(obj).prop("className") + "-text").val($("#" + $(obj).prop("className") + "-text").val().replace(url, ''));
+        parent.remove();
+        console.log($("#" + $(obj).prop("className") + "-text").val());
+    }
+
+    function upload(obj) {
+        var file = obj.files[0];
+        var form = new FormData();
+        console.log("#" + $(obj).prop("className") + "-text");
+        form.append("file", file);
+        $.ajax({
+            url: "http://www.820803.xyz:2001/api/file/PostFileForPath",
+            type: "post",
+            data: form,
+            processData: false,
+            contentType: false,
+            dataType: 'json',
+            async: true,
+            success: function (data) {
+                console.log($("#" + $(obj).prop("className") + "-text").val());
+                if (data == "") {
+                    alert("上传失败");
+                } else {
+                    var text = $("#" + $(obj).prop("className") + "-text").val();
+                    $("#" + $(obj).prop("className") + "-text").val(text == '' ? data : text + ';' + data);
+                    console.log($("#" + $(obj).prop("className") + "-text").val());
+                    $(obj).attr("data-url", data);
+                }
+            },
+            fail: function (data) {
+                alert(data);
+            }
+        });
+    } 
+</script>
+
+
+

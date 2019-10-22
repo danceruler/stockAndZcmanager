@@ -1,0 +1,319 @@
+﻿@model List<ZcProjectManage.Controllers.SumModel>
+
+@{
+    ViewBag.Title = "Sum";
+}
+<style>
+    .fanChartDiv{
+        width:33%;
+        height:400px;
+        float:left;
+    }
+
+    .barChartDiv {
+        width: 100%;
+        height:500px;
+    }
+</style>
+<div>
+    <div style="background-color:white;width:100%;height:400px;">
+        <div id="cooperate" class="fanChartDiv" onclick="clickFanChart(1)"></div>
+        <div id="undertake" class="fanChartDiv" onclick="clickFanChart(0)"></div>
+        <div id="all" class="fanChartDiv" onclick="clickFanChart(-1)" ></div>
+        
+    </div>
+    <div>
+        <div id="barChart" class="barChartDiv"></div>
+    </div>
+</div>
+<script>
+    // 基于准备好的dom，初始化echarts实例
+    var cooperateChart = echarts.init(document.getElementById('cooperate'));
+    var undertakeChart = echarts.init(document.getElementById('undertake'));
+    var allChart = echarts.init(document.getElementById('all'));
+    
+    var barChart = echarts.init(document.getElementById('barChart'));
+    
+    $.ajax({
+        type: 'post',
+        dataType: 'json',
+        url: '/Main/SumData',
+        async: true,
+        success: function (result) {
+            console.log(result[0]);
+            initAllChart(result[0]);
+            initUnderTakeChart(result[1]);
+            initCooperateChart(result[2]);
+        }
+    });
+
+    function clickFanChart(type) {
+        $.ajax({
+            type: 'post',
+            dataType: 'json',
+            data: { type: type},
+            url: '/Main/SumData2',
+            async: true,
+            success: function (result) {
+                console.log(result);
+                initBarChart(result);
+            }
+        });
+    }
+
+    function initCooperateChart(model) {
+        var seriesdata = [];
+        var legenddata = [];
+        for (var i = 0; i < model.models.length; i++) {
+            var item = {
+                value: model.models[i].sum,
+                name: model.models[i].name,
+            }
+            seriesdata.push(item);
+            legenddata.push(item.name);
+        }
+
+        var option = {
+            title: {
+                text: '合作方',        //主标题文本
+                //subtext: '纯属虚构',            //副标题文本
+                x: 'center'                    //标题水平安放位置
+            },
+            //                calculable: true,                        //是否启用拖拽重计算特性，默认关闭
+            series: [{                                //数据内容
+                name: '访问来源',                        //系列名称，如启用legend，该值将被legend.data索引相关
+                type: 'pie',                        //图表类型，必要参数！
+                radius: '55%',                        //半径
+                center: ['50%', '60%'],                //圆心坐标
+                data: seriesdata
+            }],
+            tooltip: {                         //提示框，鼠标悬浮交互时的信息提示
+                trigger: 'item',            //触发类型，默认数据触发，可选值有item和axis
+                formatter: "{a} <br/>{b} : {c} ({d}%)",    //鼠标指上时显示的数据  a（系列名称），b（类目值），c（数值）, d（占总体的百分比）
+                backgroundColor: 'rgba(0,0,0,0.7)'    //提示背景颜色，默认为透明度为0.7的黑色
+
+            },
+            legend: {                                //图例，每个图表最多仅有一个图例。
+                orient: 'vertical',                    //布局方式，默认为水平布局，可选值有horizontal(竖直)和vertical(水平)
+                x: 'left',                            //图例水平安放位置，默认为全图居中。可选值有left、right、center
+                data: legenddata
+            },
+            toolbox: {                                //工具箱，每个图表最多仅有一个工具箱。
+                show: true,                            //显示策略，可选为：true（显示） | false（隐藏）
+                feature: {                            //启用功能
+                    //                        mark: {                            //辅助线标志
+                    //                            show: true
+                    //                        },
+                    dataView: {                        //数据视图
+                        show: true,
+                        readOnly: false                //readOnly 默认数据视图为只读，可指定readOnly为false打开编辑功能
+                    },
+                    restore: {                        //还原，复位原始图表   右上角有还原图标
+                        show: true
+                    },
+                    saveAsImage: {                    //保存图片（IE8-不支持），默认保存类型为png，可以改为jpeg
+                        show: true,
+                        type: 'jpeg',
+                        title: '保存为图片'
+                    }
+                }
+            }
+        };
+        cooperateChart.setOption(option);
+    }
+
+    function initUnderTakeChart(model) {
+        var seriesdata = [];
+        var legenddata = [];
+        for (var i = 0; i < model.models.length; i++) {
+            var item = {
+                value: model.models[i].sum,
+                name: model.models[i].name,
+            }
+            seriesdata.push(item);
+            legenddata.push(item.name);
+        }
+
+        var option = {
+            title: {
+                text: '承接方',        //主标题文本
+                //subtext: '纯属虚构',            //副标题文本
+                x: 'center'                    //标题水平安放位置
+            },
+            //                calculable: true,                        //是否启用拖拽重计算特性，默认关闭
+            series: [{                                //数据内容
+                name: '访问来源',                        //系列名称，如启用legend，该值将被legend.data索引相关
+                type: 'pie',                        //图表类型，必要参数！
+                radius: '55%',                        //半径
+                center: ['50%', '60%'],                //圆心坐标
+                data: seriesdata
+            }],
+            tooltip: {                         //提示框，鼠标悬浮交互时的信息提示
+                trigger: 'item',            //触发类型，默认数据触发，可选值有item和axis
+                formatter: "{a} <br/>{b} : {c} ({d}%)",    //鼠标指上时显示的数据  a（系列名称），b（类目值），c（数值）, d（占总体的百分比）
+                backgroundColor: 'rgba(0,0,0,0.7)'    //提示背景颜色，默认为透明度为0.7的黑色
+
+            },
+            legend: {                                //图例，每个图表最多仅有一个图例。
+                orient: 'vertical',                    //布局方式，默认为水平布局，可选值有horizontal(竖直)和vertical(水平)
+                x: 'left',                            //图例水平安放位置，默认为全图居中。可选值有left、right、center
+                data: legenddata
+            },
+            toolbox: {                                //工具箱，每个图表最多仅有一个工具箱。
+                show: true,                            //显示策略，可选为：true（显示） | false（隐藏）
+                feature: {                            //启用功能
+                    //                        mark: {                            //辅助线标志
+                    //                            show: true
+                    //                        },
+                    dataView: {                        //数据视图
+                        show: true,
+                        readOnly: false                //readOnly 默认数据视图为只读，可指定readOnly为false打开编辑功能
+                    },
+                    restore: {                        //还原，复位原始图表   右上角有还原图标
+                        show: true
+                    },
+                    saveAsImage: {                    //保存图片（IE8-不支持），默认保存类型为png，可以改为jpeg
+                        show: true,
+                        type: 'jpeg',
+                        title: '保存为图片'
+                    }
+                }
+            }
+        };
+        undertakeChart.setOption(option);
+    }
+
+    function initAllChart(model) {
+        var seriesdata = [];
+        var legenddata = [];
+        for (var i = 0; i < model.models.length; i++) {
+            var item = {
+                value: model.models[i].sum,
+                name: model.models[i].name,
+            }
+            seriesdata.push(item);
+            legenddata.push(item.name);
+        } 
+
+        var option = {
+        title: {
+            text: '总览',        //主标题文本
+            //subtext: '纯属虚构',            //副标题文本
+            x: 'center'                    //标题水平安放位置
+        },
+        //                calculable: true,                        //是否启用拖拽重计算特性，默认关闭
+        series: [{                                //数据内容
+            name: '访问来源',                        //系列名称，如启用legend，该值将被legend.data索引相关
+            type: 'pie',                        //图表类型，必要参数！
+            radius: '55%',                        //半径
+            center: ['50%', '60%'],                //圆心坐标
+            data: seriesdata
+        }],
+        tooltip: {                         //提示框，鼠标悬浮交互时的信息提示
+            trigger: 'item',            //触发类型，默认数据触发，可选值有item和axis
+            formatter: "{a} <br/>{b} : {c} ({d}%)",    //鼠标指上时显示的数据  a（系列名称），b（类目值），c（数值）, d（占总体的百分比）
+            backgroundColor: 'rgba(0,0,0,0.7)'    //提示背景颜色，默认为透明度为0.7的黑色
+
+        },
+        legend: {                                //图例，每个图表最多仅有一个图例。
+            orient: 'vertical',                    //布局方式，默认为水平布局，可选值有horizontal(竖直)和vertical(水平)
+            x: 'left',                            //图例水平安放位置，默认为全图居中。可选值有left、right、center
+            data: legenddata
+        },
+        toolbox: {                                //工具箱，每个图表最多仅有一个工具箱。
+            show: true,                            //显示策略，可选为：true（显示） | false（隐藏）
+            feature: {                            //启用功能
+                //                        mark: {                            //辅助线标志
+                //                            show: true
+                //                        },
+                dataView: {                        //数据视图
+                    show: true,
+                    readOnly: false                //readOnly 默认数据视图为只读，可指定readOnly为false打开编辑功能
+                },
+                restore: {                        //还原，复位原始图表   右上角有还原图标
+                    show: true
+                },
+                saveAsImage: {                    //保存图片（IE8-不支持），默认保存类型为png，可以改为jpeg
+                    show: true,
+                    type: 'jpeg',
+                    title: '保存为图片'
+                }
+            }
+        }
+    };
+        allChart.setOption(option);
+        
+    }
+
+
+    function initBarChart(model) {
+        xAxisData = [];
+        seriesData = [];
+        for (var i = 0; i < model.length; i++) {
+            xAxisData.push(model[i].name);
+            seriesData.push(model[i].sum);
+        }
+        console.log(xAxisData, seriesData);
+        var option = {
+            title: {
+                text: '标签数量统计'
+            },
+            tooltip: {},  //提示框组件
+            legend: {              //图例组件
+                data: ["标签"]     //图例的数据数组。数组项通常为一个字符串，每一项代表一个系列的 name
+            },
+            xAxis: {             //直角坐标系 grid 中的 x 轴
+                axisLabel: {
+                    interval: 0,
+                    rotate: -45, // 20度角倾斜显示(***这里是关键)
+                    textStyle: {
+                        color: '#000000'
+                    }
+                },
+                data: xAxisData
+            },
+            yAxis: {},
+            series: [{                //系列列表
+                name: '标签',         //系列名称，用于tooltip的显示，legend 的图例筛选
+                type: 'bar',          //类型
+                data: seriesData          //系列中的数据内容数组。数组项通常为具体的数据项
+            }]
+        };
+        barChart.setOption(option);
+        barChart.on('click', function (params) {
+            // 当componentType == "xAxis"或者 ==“yAxisx”时，取被点击时坐标轴的值params.value
+            // alert("单击了"+params.componentType+"x轴标签"+params.value); 
+             //if(params.componentType == "xAxis"){  
+             //    alert("单击了"+params.value+"x轴标签");  
+             //}else if (params.componentType == "yAxis") {
+             //    alert("单击了"+params.value+"y轴标签");  
+             //}
+             //else{  
+             //    alert("单击了"+params.name+"柱状图"+params.value);  
+             //}  
+            
+            window.location.href = "http://" + window.location.hostname + ":" + window.location.port + "/Main/Index?cname=Company&aname=List&tag=" + params.name;
+            // invalid start
+            //     获取data长度
+            // 　　alert(option.series[0].data.length);
+            //      获取地N个data的值
+            // 　　alert(option.series[0].data[3]);
+            //     获取series中param.dataIndex事件对应的值
+            // alert(params.dataIndex);
+            // 　　alert(option.series[params.seriesIndex].data[params.dataIndex]);
+            //invalid end
+
+            // alert(param.value);
+            //    获取xAxis当前点击事件索引对应的值，可以用作传参
+            // alert("test "+option.xAxis.data[params.dataIndex]);     
+            //param.dataIndex 获取当前点击索引，
+            // 　　alert(param.dataIndex);
+            //  当前点击事件位于series中的索引
+            //   alert(param.seriesIndex);
+            //param具体包含的参数见 https://blog.csdn.net/allenjay11/article/details/76033232
+            updatePage(option.xAxis.data[params.dataIndex], params.value);
+
+            refresh();
+        });
+    }
+</script>

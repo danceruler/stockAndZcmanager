@@ -1,0 +1,208 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="StockSupportSystemModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="stock">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="type" />
+          </Key>
+          <Property Name="id" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="50" />
+          <Property Name="type" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="StockInfo">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="date" />
+          </Key>
+          <Property Name="id" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="type" Type="int" Nullable="false" />
+          <Property Name="date" Type="datetime" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="50" />
+          <Property Name="closeprice" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="minprice" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="maxprice" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="openprice" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="fromtclsoeprice" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="upsandowns" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="chg" Type="decimal" Precision="18" Scale="6" />
+          <Property Name="volume" Type="bigint" />
+          <Property Name="EMA12" Type="decimal" Precision="18" Scale="6" />
+          <Property Name="EMA26" Type="decimal" Precision="18" Scale="6" />
+          <Property Name="DIF" Type="decimal" Precision="18" Scale="6" />
+          <Property Name="DEA" Type="decimal" Precision="18" Scale="6" />
+          <Property Name="MACD" Type="decimal" Precision="18" Scale="6" />
+          <Property Name="IsMACD" Type="int" />
+          <Property Name="MA5" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="MA10" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="MA20" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="MA30" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="MA60" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="InOutPoint" Type="int" />
+        </EntityType>
+        <EntityType Name="StockNews">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="code" Type="varchar" MaxLength="50" />
+          <Property Name="stockname" Type="varchar" MaxLength="50" />
+          <Property Name="title" Type="varchar(max)" />
+          <Property Name="type" Type="varchar" MaxLength="50" />
+          <Property Name="url" Type="varchar(max)" />
+          <Property Name="Date" Type="datetime" />
+          <Property Name="sort" Type="int" />
+        </EntityType>
+        <EntityContainer Name="StockSupportSystemModelStoreContainer">
+          <EntitySet Name="stock" EntityType="Self.stock" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="StockInfo" EntityType="Self.StockInfo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="StockNews" EntityType="Self.StockNews" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="StockSupportSystemModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="stock">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="type" />
+          </Key>
+          <Property Name="id" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="type" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityContainer Name="StockSupportSystemEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="stock" EntityType="Self.stock" />
+          <EntitySet Name="StockInfo" EntityType="StockSupportSystemModel.StockInfo" />
+          <EntitySet Name="StockNews" EntityType="StockSupportSystemModel.StockNews" />
+        </EntityContainer>
+        <EntityType Name="StockInfo">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="date" />
+          </Key>
+          <Property Name="id" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="type" Type="Int32" Nullable="false" />
+          <Property Name="date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="closeprice" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="minprice" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="maxprice" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="openprice" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="fromtclsoeprice" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="upsandowns" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="chg" Type="Decimal" Precision="18" Scale="6" />
+          <Property Name="volume" Type="Int64" />
+          <Property Name="EMA12" Type="Decimal" Precision="18" Scale="6" />
+          <Property Name="EMA26" Type="Decimal" Precision="18" Scale="6" />
+          <Property Name="DIF" Type="Decimal" Precision="18" Scale="6" />
+          <Property Name="DEA" Type="Decimal" Precision="18" Scale="6" />
+          <Property Name="MACD" Type="Decimal" Precision="18" Scale="6" />
+          <Property Name="IsMACD" Type="Int32" />
+          <Property Name="MA5" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="MA10" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="MA20" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="MA30" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="MA60" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="InOutPoint" Type="Int32" />
+        </EntityType>
+        <EntityType Name="StockNews">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="code" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="stockname" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="title" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="type" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="url" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Date" Type="DateTime" Precision="3" />
+          <Property Name="sort" Type="Int32" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="StockSupportSystemModelStoreContainer" CdmEntityContainer="StockSupportSystemEntities">
+          <EntitySetMapping Name="stock">
+            <EntityTypeMapping TypeName="StockSupportSystemModel.stock">
+              <MappingFragment StoreEntitySet="stock">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="type" ColumnName="type" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StockInfo">
+            <EntityTypeMapping TypeName="StockSupportSystemModel.StockInfo">
+              <MappingFragment StoreEntitySet="StockInfo">
+                <ScalarProperty Name="InOutPoint" ColumnName="InOutPoint" />
+                <ScalarProperty Name="MA60" ColumnName="MA60" />
+                <ScalarProperty Name="MA30" ColumnName="MA30" />
+                <ScalarProperty Name="MA20" ColumnName="MA20" />
+                <ScalarProperty Name="MA10" ColumnName="MA10" />
+                <ScalarProperty Name="MA5" ColumnName="MA5" />
+                <ScalarProperty Name="IsMACD" ColumnName="IsMACD" />
+                <ScalarProperty Name="MACD" ColumnName="MACD" />
+                <ScalarProperty Name="DEA" ColumnName="DEA" />
+                <ScalarProperty Name="DIF" ColumnName="DIF" />
+                <ScalarProperty Name="EMA26" ColumnName="EMA26" />
+                <ScalarProperty Name="EMA12" ColumnName="EMA12" />
+                <ScalarProperty Name="volume" ColumnName="volume" />
+                <ScalarProperty Name="chg" ColumnName="chg" />
+                <ScalarProperty Name="upsandowns" ColumnName="upsandowns" />
+                <ScalarProperty Name="fromtclsoeprice" ColumnName="fromtclsoeprice" />
+                <ScalarProperty Name="openprice" ColumnName="openprice" />
+                <ScalarProperty Name="maxprice" ColumnName="maxprice" />
+                <ScalarProperty Name="minprice" ColumnName="minprice" />
+                <ScalarProperty Name="closeprice" ColumnName="closeprice" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="date" ColumnName="date" />
+                <ScalarProperty Name="type" ColumnName="type" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StockNews">
+            <EntityTypeMapping TypeName="StockSupportSystemModel.StockNews">
+              <MappingFragment StoreEntitySet="StockNews">
+                <ScalarProperty Name="sort" ColumnName="sort" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="url" ColumnName="url" />
+                <ScalarProperty Name="type" ColumnName="type" />
+                <ScalarProperty Name="title" ColumnName="title" />
+                <ScalarProperty Name="stockname" ColumnName="stockname" />
+                <ScalarProperty Name="code" ColumnName="code" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="无" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

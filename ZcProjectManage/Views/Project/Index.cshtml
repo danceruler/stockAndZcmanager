@@ -1,0 +1,524 @@
+﻿@model ZcProjectManage.project
+@{ 
+    var states = ViewBag.states as Dictionary<int, string>;
+    var FirstCompanies = ViewBag.FirstCompanies as List<Company>;
+    var SecondCompanies = ViewBag.SecondCompanies as List<Company>;
+    var TypeTags = ViewBag.TypeTags as List<projectype>;
+    var AppTags = ViewBag.AppTags as List<projectype>;
+}
+<div>
+    <div class="container-fluid">
+        <div class="side-body">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <div class="title">项目信息</div>
+                            </div>
+                        </div>
+                        @if (ViewBag.userType == 0)
+                        {
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <label for="projectname">项目名称</label>
+                                    <input type="text" class="form-control" id="projectname" value="@Model.name" disabled="disabled">
+                                </div>
+                                <div class="form-group">
+                                    <label for="type">标签</label>
+                                    @{
+                                        var typeids = Model.typeids.Split(',');
+                                    }
+                                    <select id="type" class="select6" multiple disabled>
+                                        <optgroup label="类型标签">
+                                            @foreach (var tag in TypeTags)
+                                            {
+                                                if (typeids.Contains(tag.id.ToString()))
+                                                {
+                                                    <option value="@tag.id" class="option_eight" selected>@tag.name</option>
+                                                }
+                                                else
+                                                {
+                                                    <option value="@tag.id" class="option_eight">@tag.name</option>
+                                                }
+
+                                            }
+                                        </optgroup>
+                                        <optgroup label="应用场景标签">
+                                            @foreach (var tag in AppTags)
+                                            {
+                                                if (typeids.Contains(tag.id.ToString()))
+                                                {
+                                                    <option value="@tag.id" class="option_eight" selected>@tag.name</option>
+                                                }
+                                                else
+                                                {
+                                                    <option value="@tag.id" class="option_eight">@tag.name</option>
+                                                }
+                                            }
+                                        </optgroup>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="state">状态</label>
+                                    <select class="form-control" id="state" disabled>
+                                        @foreach (var key in states.Keys)
+                                        {
+                                            if (key == Model.state)
+                                            {
+                                                <option value="@key" selected="selected">@states[key]</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="@key">@states[key]</option>
+                                            }
+                                        }
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="secondcompany">承接单位</label>
+                                    <select class="form-control" id="secondcompany" disabled>
+                                        @foreach (var company in SecondCompanies)
+                                        {
+                                            if (company.id == Model.secondcompanyid)
+                                            {
+                                                <option value="@company.id" selected="selected">@company.name</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="@company.id">@company.name</option>
+                                            }
+
+                                        }
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="firstcompany">合作公司</label>
+                                    <select class="form-control" id="firstcompany" disabled>
+                                        @foreach (var company in FirstCompanies)
+                                        {
+                                            if (company.id == Model.firstcompanyid)
+                                            {
+                                                <option value="@company.id" selected="selected">@company.name</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="@company.id">@company.name</option>
+                                            }
+
+                                        }
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="earlycontent">前期需求</label>
+                                    <script id="earlycontent" type="text/plain" style="width:100%;height:400px;">
+                                    </script>
+                                    <input value="@Model.earlycontent" id="early-uediitercontent" style="display:none" disabled="disabled"/>
+                                    @*<textarea id="earlycontent" class="form-control" style="resize: none;" rows="5">@Model.earlycontent</textarea>*@
+                                </div>
+                                <div class="form-group">
+                                    <label for="earlyfiles-appendix">附件</label>
+                                    <div class="filedivList">
+                                        @if (!string.IsNullOrWhiteSpace(Model.earlyfiles))
+                                        {
+                                            var files = Model.earlyfiles.Split(';');
+                                            for (int id = 1; id <= files.Length; id++)
+                                            {
+                                                <div class="filediv" data-id="@id">
+                                                    <button class="fileShowBlock" id="earlyfiles-@id" onclick="window.open('@files[id-1]')" data-url="@files[id-1]">@files[id - 1].Split('$')[files[id - 1].Split('$').Length - 1]</button>
+                                                    <button onclick="deleteFile(this)" class="earlyfiles">删除</button>
+                                                </div>
+                                            }
+
+                                        }
+                                    </div>
+                                    <button class="addUploadFileBtn" data-appendixname="earlyfiles" onclick="addAppendix(this)">添加附件</button>
+                                    <input type="text" style="display:none" id="earlyfiles-text" value="@Model.earlyfiles" />
+                                    @*<p class="help-block">多个文件请压缩</p>*@
+                                </div>
+                                <div class="form-group">
+                                    <label for="solutioncontent">项目解决方案</label>
+                                    <script id="solutioncontent" type="text/plain" style="width:100%;height:400px;">
+                                    </script>
+                                    <input value="@Model.solutioncontent" id="solution-uediitercontent" style="display:none" />
+                                    @*<textarea id="solutioncontent" class="form-control" style="resize: none;" rows="5">@Model.solutioncontent</textarea>*@
+                                </div>
+                                <div class="form-group">
+                                    <label for="solutionfiles-appendix">附件</label>
+                                    <div class="filedivList">
+                                        @if (!string.IsNullOrWhiteSpace(Model.solutionfiles))
+                                        {
+                                            var files = Model.solutionfiles.Split(';');
+                                            for (int id = 1; id <= files.Length; id++)
+                                            {
+                                                <div class="filediv" data-id="@id">
+                                                    <button class="fileShowBlock" id="solutionfiles-@id" onclick="window.open('@files[id-1]')" data-url="@files[id-1]">@files[id - 1].Split('$')[files[id - 1].Split('$').Length - 1]</button>
+                                                    <button onclick="deleteFile(this)" class="solutionfiles">删除</button>
+                                                </div>
+                                            }
+
+                                        }
+                                    </div>
+                                    <button class="addUploadFileBtn" data-appendixname="solutionfiles" onclick="addAppendix(this)">添加附件</button>
+                                    <input type="text" style="display:none" id="solutionfiles-text" value="@Model.solutionfiles" />
+                                </div>
+                                <div class="form-group">
+                                    <label for="finalcontent">最终实施方案</label>
+                                    <script id="finalcontent" type="text/plain" style="width:100%;height:400px;">
+                                    </script>
+                                    <input value="@Model.finalcontent" id="final-uediitercontent" style="display:none" />
+                                    @*<textarea id="finalcontent" class="form-control" style="resize: none;" rows="5">@Model.finalcontent</textarea>*@
+                                </div>
+                                <div class="form-group">
+                                    <label for="solutionfiles-appendix">附件</label>
+                                    <div class="filedivList">
+                                        @if (!string.IsNullOrWhiteSpace(Model.finalfiles))
+                                        {
+                                            var files = Model.finalfiles.Split(';');
+                                            for (int id = 1; id <= files.Length; id++)
+                                            {
+                                                <div class="filediv" data-id="@id">
+                                                    <button class="fileShowBlock" id="finalfiles-@id" onclick="window.open('@files[id-1]')" data-url="@files[id-1]">@files[id - 1].Split('$')[files[id - 1].Split('$').Length - 1]</button>
+                                                    <button onclick="deleteFile(this)" class="finalfiles">删除</button>
+                                                </div>
+                                            }
+
+                                        }
+                                    </div>
+                                    <button class="addUploadFileBtn" data-appendixname="finalfiles" onclick="addAppendix(this)">添加附件</button>
+                                    <input type="text" style="display:none" id="finalfiles-text" value="@Model.finalfiles" />
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="remark">备注</label>
+                                    <input type="text" class="form-control" id="remark" value="@Model.remark" disabled="disabled">
+                                </div>
+                                @if (ViewBag.userType == 1)
+                                {
+                                    <button class="btn btn-default saveproject" data-id="@Model.id" data-ctime="@Model.createtime" style="background-color:lightskyblue">保存</button>
+                                }
+                                <input id="usertype" value="@ViewBag.userType" style="display:none" />
+                            </div>
+                    }
+                    else {
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <label for="projectname">项目名称</label>
+                                    <input type="text" class="form-control" id="projectname" value="@Model.name">
+                                </div>
+                                <div class="form-group">
+                                    <label for="type">标签</label>
+                                    @{
+                                        var typeids = Model.typeids.Split(',');
+                                    }
+                                    <select id="type" class="select6" multiple>
+                                        <optgroup label="类型标签">
+                                            @foreach (var tag in TypeTags)
+                                            {
+                                                if (typeids.Contains(tag.id.ToString()))
+                                                {
+                                                    <option value="@tag.id" class="option_eight" selected>@tag.name</option>
+                                                }
+                                                else
+                                                {
+                                                    <option value="@tag.id" class="option_eight">@tag.name</option>
+                                                }
+
+                                            }
+                                        </optgroup>
+                                        <optgroup label="应用场景标签">
+                                            @foreach (var tag in AppTags)
+                                            {
+                                                if (typeids.Contains(tag.id.ToString()))
+                                                {
+                                                    <option value="@tag.id" class="option_eight" selected>@tag.name</option>
+                                                }
+                                                else
+                                                {
+                                                    <option value="@tag.id" class="option_eight">@tag.name</option>
+                                                }
+                                            }
+                                        </optgroup>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="state">状态</label>
+                                    <select class="form-control" id="state">
+                                        @foreach (var key in states.Keys)
+                                        {
+                                            if (key == Model.state)
+                                            {
+                                                <option value="@key" selected="selected">@states[key]</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="@key">@states[key]</option>
+                                            }
+                                        }
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="secondcompany">承接单位</label>
+                                    <select class="form-control" id="secondcompany">
+                                        @foreach (var company in SecondCompanies)
+                                        {
+                                            if (company.id == Model.secondcompanyid)
+                                            {
+                                                <option value="@company.id" selected="selected">@company.name</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="@company.id">@company.name</option>
+                                            }
+
+                                        }
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="firstcompany">合作公司</label>
+                                    <select class="form-control" id="firstcompany">
+                                        @foreach (var company in FirstCompanies)
+                                        {
+                                            if (company.id == Model.firstcompanyid)
+                                            {
+                                                <option value="@company.id" selected="selected">@company.name</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="@company.id">@company.name</option>
+                                            }
+
+                                        }
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="earlycontent">前期需求</label>
+                                    <script id="earlycontent" type="text/plain" style="width:100%;height:400px;">
+                                    </script>
+                                    <input value="@Model.earlycontent" id="early-uediitercontent" style="display:none" />
+                                    @*<textarea id="earlycontent" class="form-control" style="resize: none;" rows="5">@Model.earlycontent</textarea>*@
+                                </div>
+                                <div class="form-group">
+                                    <label for="earlyfiles-appendix">前期需求附件</label>
+                                    <div class="filedivList">
+                                        @if (!string.IsNullOrWhiteSpace(Model.earlyfiles))
+                                        {
+                                            var files = Model.earlyfiles.Split(';');
+                                            for (int id = 1; id <= files.Length; id++)
+                                            {
+                                                <div class="filediv" data-id="@id">
+                                                    <button class="fileShowBlock" id="earlyfiles-@id" onclick="window.open('@files[id-1]')" data-url="@files[id-1]">@files[id - 1].Split('$')[files[id - 1].Split('$').Length - 1]</button>
+                                                    <button onclick="deleteFile(this)" class="earlyfiles">删除</button>
+                                                </div>
+                                            }
+
+                                        }
+                                    </div>
+                                    <button class="addUploadFileBtn" data-appendixname="earlyfiles" onclick="addAppendix(this)">添加附件</button>
+                                    <input type="text" style="display:none" id="earlyfiles-text" value="@Model.earlyfiles" />
+                                </div>
+                                <div class="form-group">
+                                    <label for="solutioncontent">项目解决方案</label>
+                                    <script id="solutioncontent" type="text/plain" style="width:100%;height:400px;">
+                                    </script>
+                                    <input value="@Model.solutioncontent" id="solution-uediitercontent" style="display:none" />
+                                    @*<textarea id="solutioncontent" class="form-control" style="resize: none;" rows="5">@Model.solutioncontent</textarea>*@
+                                </div>
+                                <div class="form-group">
+                                    <label for="solutionfiles-appendix">项目解决方案附件</label>
+                                    <div class="filedivList">
+                                        @if (!string.IsNullOrWhiteSpace(Model.solutionfiles))
+                                        {
+                                            var files = Model.solutionfiles.Split(';');
+                                            for (int id = 1; id <= files.Length; id++)
+                                            {
+                                                <div class="filediv" data-id="@id">
+                                                    <button class="fileShowBlock" id="solutionfiles-@id" onclick="window.open('@files[id-1]')" data-url="@files[id-1]">@files[id - 1].Split('$')[files[id - 1].Split('$').Length - 1]</button>
+                                                    <button onclick="deleteFile(this)" class="solutionfiles">删除</button>
+                                                </div>
+                                            }
+
+                                        }
+                                    </div>
+                                    <button class="addUploadFileBtn" data-appendixname="solutionfiles" onclick="addAppendix(this)">添加附件</button>
+                                    <input type="text" style="display:none" id="solutionfiles-text" value="@Model.solutionfiles" />
+                                </div>
+                                <div class="form-group">
+                                    <label for="finalcontent">最终实施方案</label>
+                                    <script id="finalcontent" type="text/plain" style="width:100%;height:400px;">
+                                    </script>
+                                    <input value="@Model.finalcontent" id="final-uediitercontent" style="display:none" />
+                                    @*<textarea id="finalcontent" class="form-control" style="resize: none;" rows="5">@Model.finalcontent</textarea>*@
+                                </div>
+                                <div class="form-group">
+                                    <label for="solutionfiles-appendix">最终实施方案附件</label>
+                                    <div class="filedivList">
+                                        @if (!string.IsNullOrWhiteSpace(Model.finalfiles))
+                                        {
+                                            var files = Model.finalfiles.Split(';');
+                                            for (int id = 1; id <= files.Length; id++)
+                                            {
+                                                <div class="filediv" data-id="@id">
+                                                    <button class="fileShowBlock" id="finalfiles-@id" onclick="window.open('@files[id-1]')" data-url="@files[id-1]">@files[id - 1].Split('$')[files[id - 1].Split('$').Length - 1]</button>
+                                                    <button onclick="deleteFile(this)" class="finalfiles">删除</button>
+                                                </div>
+                                            }
+
+                                        }
+                                    </div>
+                                    <button class="addUploadFileBtn" data-appendixname="finalfiles" onclick="addAppendix(this)">添加附件</button>
+                                    <input type="text" style="display:none" id="finalfiles-text" value="@Model.finalfiles" />
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="remark">备注</label>
+                                    <input type="text" class="form-control" id="remark" value="@Model.remark">
+                                </div>
+                                @if (ViewBag.userType == 1)
+                                {
+                                    <button class="btn btn-default saveproject" data-id="@Model.id" data-ctime="@Model.createtime" style="background-color:lightskyblue">保存</button>
+                                }
+                                <input id="usertype" value="@ViewBag.userType" style="display:none" />
+                            </div>
+                    }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="mark" style="width:75px;height:75px"><img src="http://xtu1511.820803.xyz/Upload/load3.gif" style="width:75px;height:75px" /></div>
+<script>
+    var earlycontentUediter = UE.getEditor('earlycontent');
+    var solutioncontentUediter = UE.getEditor('solutioncontent');
+    var finalcontentUediter = UE.getEditor('finalcontent');
+    var type = $('#type');
+    window.setTimeout(setContent, 1000); 
+   
+    function setContent() {
+        earlycontentUediter.setContent($("#early-uediitercontent").val());
+        solutioncontentUediter.setContent($("#solution-uediitercontent").val());
+        finalcontentUediter.setContent($("#final-uediitercontent").val());
+        if ($("#usertype").val() == 0) {
+            earlycontentUediter.setDisabled();
+            solutioncontentUediter.setDisabled();
+            finalcontentUediter.setDisabled();
+        }
+    }
+    $(".saveproject").click(function () {
+        var projectname = $("#projectname").val();
+        var state = $("#state").val();
+        var typeids = $("#type").val();
+        var secondcompany = $("#secondcompany").val();
+        var firstcompany = $("#firstcompany").val();
+        var earlycontent = earlycontentUediter.getContent();
+        //var earlycontent = $("#earlycontent").val();
+        var solutioncontent = solutioncontentUediter.getContent();
+        //var solutioncontent = $("#solutioncontent").val();
+        var finalcontent = finalcontentUediter.getContent();
+        //var finalcontent = $("#finalcontent").val();
+        var remark = $("#remark").val();
+        var earlyfiles = $("#earlyfiles-text").val();
+        var solutionfiles = $("#solutionfiles-text").val();
+        var finalfiles = $("#finalfiles-text").val();
+        var id = $(this).data("id");
+        var ctime = $(this).data("ctime");
+        $.ajax({
+            type: 'post',
+            url: '/Project/SaveProject',
+            data: {
+                id:id,
+                name: projectname,
+                firstcompanyid: firstcompany,
+                secondcompanyid: secondcompany,
+                typeids: typeids,
+                state: state,
+                earlyfiles: earlyfiles,
+                solutionfiles: solutionfiles,
+                finalfiles: finalfiles,
+                remark: remark,
+                earlycontent: earlycontent,
+                solutioncontent: solutioncontent,
+                finalcontent: finalcontent,
+                createtime: ctime
+            },
+            dataType: 'json',
+            success: function (result) {
+                if (result.State == 1) {
+                    alert("修改成功");
+                    window.location.reload();
+                } else {
+                    alert("修改失败：信息如下：\n"+result.Message);
+                }
+            }
+        });
+    });
+
+
+    function addAppendix(obj) {
+        var fatherObj = $(obj).parent();
+        var filedivList = fatherObj.children('.filedivList');
+        var fileDivs = filedivList.children('.filediv');
+        var ids = [];
+        console.log(fileDivs.length);
+        for (var i = 0; i < fileDivs.length; i++) {
+            ids.push($(fileDivs[i]).data("id"));
+        }
+        var appendixname = $(obj).data("appendixname");
+        console.log(appendixname);
+        for (var i = 1; i <= 100; i++) {
+            if (ids.indexOf(i) == -1) {
+                var htmlContent = '<div class="filediv" data-id="' + i + '">' +
+                    '<input type="file" id="' + appendixname + '-' + i + '" class="' + appendixname + '" onchange="upload(this)" style="float:left" >'
+                    + '<button onclick="deleteFile(this)" class="' + appendixname + '" >删除</button>'
+                    + '</div>';
+                //$(fileDivs[fileDivs.length - 1]).append(htmlContent);
+                $(filedivList).append(htmlContent);
+                break;
+            }
+        }
+
+    }
+
+    function deleteFile(obj) {
+        var parent = $(obj).parent();
+        var id = $(parent).data("id");
+        console.log(parent);
+        var url = $("#" + $(obj).prop("className") + "-" + id).data("url");
+        $("#" + $(obj).prop("className") + "-text").val($("#" + $(obj).prop("className") + "-text").val().replace(url, ''));
+        parent.remove();
+        console.log($("#" + $(obj).prop("className") + "-text").val());
+    }
+
+    function upload(obj) {
+        var file = obj.files[0];
+        var form = new FormData();
+        console.log("#" + $(obj).prop("className") + "-text");
+        form.append("file", file);
+        $.ajax({
+            url: "http://www.820803.xyz:2001/api/file/PostFileForPath",
+            type: "post",
+            data: form,
+            processData: false,
+            contentType: false,
+            dataType: 'json',
+            async: true,
+            success: function (data) {
+                console.log($("#" + $(obj).prop("className") + "-text").val());
+                if (data == "") {
+                    alert("上传失败");
+                } else {
+                    var text = $("#" + $(obj).prop("className") + "-text").val();
+                    $("#" + $(obj).prop("className") + "-text").val(text == '' ? data : text + ';' + data);
+                    console.log($("#" + $(obj).prop("className") + "-text").val());
+                    $(obj).attr("data-url", data);
+                }
+            },
+            fail: function (data) {
+                alert(data);
+            }
+        });
+    }
+</script>
+
+

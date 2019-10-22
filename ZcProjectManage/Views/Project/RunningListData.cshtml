@@ -1,0 +1,53 @@
+﻿@model  List<ZcProjectManage.project>
+<table class="datatable table table-striped" cellspacing="0" width="100%">
+    <thead>
+        <tr>
+            <th>项目名</th>
+            <th>合作方</th>
+            <th>承接方</th>
+            <th>时间</th>
+            <th>备注</th>
+            <th>操作</th>
+        </tr>
+    </thead>
+    @*<tfoot>
+            <tr>
+                <th>Name</th>
+                <th>Position</th>
+                <th>Office</th>
+                <th>Age</th>
+                <th>Start date</th>
+                <th>Salary</th>
+            </tr>
+        </tfoot>*@
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.name</td>
+                <td></td>
+                <td> </td>
+                <td>@item.createtime</td>
+                <td>@item.remark</td>
+                <td><a onclick="ProjectInfo(@item.id)">详细信息</a></td>
+            </tr>
+        }
+
+    </tbody>
+</table>
+<script>
+    function ProjectInfo(id) {
+        $.ajax({
+            type: 'post',
+            url: '/Company/Index',
+            data: { companyid: id },
+            traditional: true,
+            dataType: "html",
+            success: function (data) {
+                $("#page-content").html("");
+                $("#page-content").html(data);
+                return false;
+            }
+        });
+    }
+</script>
