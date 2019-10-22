@@ -932,6 +932,7 @@
         var form = new FormData();
         console.log("#" + $(obj).prop("className") + "-text");
         form.append("file", file);
+        var loadingObj = startLoading();
         $.ajax({
             url: "http://www.820803.xyz:2001/api/file/PostFileForPath",
             type: "post",
@@ -950,6 +951,7 @@
                     console.log($("#" + $(obj).prop("className") + "-text").val());
                     $(obj).attr("data-url", data);
                 }
+                loadingObj.stop();
             },
             fail: function (data) {
                 alert(data);

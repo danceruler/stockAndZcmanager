@@ -24,28 +24,10 @@
     <script src="~/Scripts/ueditor.config.js"></script>
     <script src="~/Scripts/editor_api.js"></script>
     <link href="~/Content/bootstrap-datepicker/css/bootstrap-datepicker.css" rel="stylesheet" />
+    <link href="~/Content/loading.css" rel="stylesheet" />
     @*<script src="~/Scripts/ueditor.all.js"></script>*@
-    <script src="~/Scripts/zh-cn.js"></script>
-    <script src="~/js/echarts.min.js"></script>
-    <style>
 
-        .mark {
-            display: none;
-            position: fixed;
-            top: 0;
-            right: 0;
-            bottom: 0;
-            left: 0;
-            margin: auto;
-            height: 50px;
-            line-height: 50px;
-            /*width: 100px;*/
-            text-align: center;
-            font-size: 15px;
-            color: #fff;
-            background: rgba(0, 0, 0, 0.6);
-            border-radius: 0.1rem;
-        }
+    <style>
 
         label {
             display: block;
@@ -90,6 +72,9 @@
     <script src="~/Content/select/js/fm.selectator.jquery.js"></script>
     <script src="~/Content/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
     <script src="~/Content/bootstrap-datepicker/locales/bootstrap-datepicker.zh-CN.min.js"></script>
+    <script src="~/Scripts/zh-cn.js"></script>
+    <script src="~/js/echarts.min.js"></script>
+    <script src="~/Scripts/loading.js"></script>
 </head>
 <body class="flat-blue">
     <div class="app-container">
@@ -221,6 +206,15 @@
             }
             return result;
         }
+
+        function startLoading() {
+            var load = new Loading();
+            load.init();
+            load.start();
+            return load;
+        }
+        
+
     </script>
 </body>
 </html>

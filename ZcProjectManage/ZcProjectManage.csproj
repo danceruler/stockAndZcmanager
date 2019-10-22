@@ -275,6 +275,7 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\img\load3.gif" />
     <Content Include="Content\layout\css\style.css" />
     <Content Include="Content\layout\css\themes.css" />
     <Content Include="Content\layout\css\themes\flat-blue.css" />
@@ -324,6 +325,8 @@
     <Content Include="Content\layout\lib\js\jquery.matchHeight-min.js" />
     <Content Include="Content\layout\lib\js\jquery.min.js" />
     <Content Include="Content\layout\lib\js\select2.full.min.js" />
+    <Content Include="Content\loading.css" />
+    <Content Include="Content\loading.gif" />
     <Content Include="Content\login\css\style2.0.css" />
     <Content Include="Content\login\img\1.png" />
     <Content Include="Content\login\img\page1_0.png" />
@@ -351,6 +354,7 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\editor_api.js" />
     <Content Include="Scripts\en.js" />
+    <Content Include="Scripts\loading.js" />
     <Content Include="Scripts\themes\default\dialogbase.css" />
     <Content Include="Scripts\themes\default\images\anchor.gif" />
     <Content Include="Scripts\themes\default\images\arrow.png" />
