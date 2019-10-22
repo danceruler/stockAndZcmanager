@@ -175,22 +175,23 @@
             } else if (controllername == "Project" && actioname == "Add") {
                 window.location.href = "http://" + window.location.hostname + ":" + window.location.port + "/Main/Index?cname=" + controllername + "&aname=" + actioname;
             } else {
-                $.ajax({
-                    type: 'post',
-                    url: '/' + controllername + '/' + actioname,
-                    traditional: true,
-                    dataType: "html",
-                    async: false,
-                    success: function (data) {
-                        $("#page-content").html("");
-                        $("#page-content").html(data);
-                        $("#tag").selectator({
-                            showAllOptionsOnFocus: true,
-                            keepOpen: true
-                        });
-                        return false;
-                    }
-                });
+                window.location.href = "http://" + window.location.hostname + ":" + window.location.port + "/Main/Index?cname=" + controllername + "&aname=" + actioname;
+                //$.ajax({
+                //    type: 'post',
+                //    url: '/' + controllername + '/' + actioname,
+                //    traditional: true,
+                //    dataType: "html",
+                //    async: false,
+                //    success: function (data) {
+                //        $("#page-content").html("");
+                //        $("#page-content").html(data);
+                //        $("#tag").selectator({
+                //            showAllOptionsOnFocus: true,
+                //            keepOpen: true
+                //        });
+                //        return false;
+                //    }
+                //});
             }
             return false;
         });
